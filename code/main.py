@@ -41,12 +41,17 @@ def indent_level(level):
 
 
 if __name__ == '__main__':
+    # Comments for testing purposes:
+    # Non-existent: jfkdlszds
+    # PoppinKream: edfm15w
+    # Korok seeds: eudig5e
+
     reddit = praw.Reddit('auth_info')  # auth information stored in git-ignored praw.ini file for confidentiality
 
     start_comment_id = input('ID of start comment: ')
     end_comment_id = input('ID of end comment (or \'all\' to print all children, or \'none\' to print no children): ')
 
-    start_comment = reddit.comment(id=start_comment_id)  # non-existent comment for testing: jfkdlszds
+    start_comment = reddit.comment(id=start_comment_id)
 
     try:
         start_comment.body

@@ -12,7 +12,19 @@ def print_single_comment(comment):
 
 
 def print_comment_tree(root_comment, level):
-    return  # stub
+    if level == 0:
+        print('https://www.reddit.com' + root_comment.permalink)
+
+    indent_string = indent_level(level)
+
+    print()
+    print(indent_string + root_comment.author.name + ' ', str(root_comment.score), 'points ',
+          datetime.datetime.fromtimestamp(root_comment.created_utc))
+    print(indent_string + root_comment.body)
+    print()
+
+    for comment in root_comment.replies:
+        print_comment_tree(comment, level+1)
 
 
 def print_comment_chain(root_comment, end_comment_id, level):

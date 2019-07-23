@@ -19,11 +19,14 @@ def print_comment_tree(root_comment, level):  # todo: insert new line breaks whe
 
     indent_string = indent_level(level)
 
-    print(indent_string + root_comment.author.name + ' ', str(root_comment.score), 'points ',
-          datetime.datetime.fromtimestamp(root_comment.created_utc))
-    comment_body_lines = root_comment.body.splitlines()
-    for line in comment_body_lines:
-        print(indent_string + line)
+    try:
+        print(indent_string + root_comment.author.name + ' ', str(root_comment.score), 'points ',
+              datetime.datetime.fromtimestamp(root_comment.created_utc))
+        comment_body_lines = root_comment.body.splitlines()
+        for line in comment_body_lines:
+            print(indent_string + line)
+    except AttributeError:
+        print(indent_string + 'deleted/removed')
     print(indent_string)
 
     root_comment.refresh()

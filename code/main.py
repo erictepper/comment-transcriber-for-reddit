@@ -12,7 +12,7 @@ def print_single_comment(comment):
     print()
 
 
-def print_comment_tree(root_comment, level):  # todo: parse body for new lines and add indent_string to each
+def print_comment_tree(root_comment, level):  # todo: insert new line breaks when line overflows
     if level == 0:
         print('https://www.reddit.com' + root_comment.permalink)
         print()
@@ -21,7 +21,9 @@ def print_comment_tree(root_comment, level):  # todo: parse body for new lines a
 
     print(indent_string + root_comment.author.name + ' ', str(root_comment.score), 'points ',
           datetime.datetime.fromtimestamp(root_comment.created_utc))
-    print(indent_string + root_comment.body)
+    comment_body_lines = root_comment.body.splitlines()
+    for line in comment_body_lines:
+        print(indent_string + line)
     print(indent_string)
 
     root_comment.refresh()

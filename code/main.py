@@ -20,12 +20,12 @@ def print_comment_chain(root_comment, end_comment_id, level):
 
 
 def indent_level(level):
-    str = ''
+    indent_string = ''
 
     for i in range(level):
-        str = str + '  '
+        indent_string = indent_string + '  '
 
-    return str
+    return indent_string
 
 
 if __name__ == '__main__':

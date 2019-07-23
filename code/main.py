@@ -12,7 +12,7 @@ def print_single_comment(comment):
     print()
 
 
-def print_comment_tree(root_comment, level):
+def print_comment_tree(root_comment, level):  # todo: parse body for new lines and add indent_string to each
     if level == 0:
         print('https://www.reddit.com' + root_comment.permalink)
         print()

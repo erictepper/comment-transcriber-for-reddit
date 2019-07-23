@@ -7,4 +7,4 @@ if __name__ == '__main__':
     start_comment_id = input("ID of start comment: ")
     end_comment_id = input("ID of end comment: ")
 
-    
+    start_comment = reddit.comment('start_comment_id')

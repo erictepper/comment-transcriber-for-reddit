@@ -20,6 +20,15 @@ def print_comment_chain(root_comment, end_comment_id, level):
     return  # stub
 
 
+def indent_level(level):
+    str = ''
+
+    for i in range(level):
+        str = str + '  '
+
+    return str
+
+
 if __name__ == '__main__':
     reddit = praw.Reddit('auth_info')  # auth information stored in gitignored praw.ini file for confidentiality
 

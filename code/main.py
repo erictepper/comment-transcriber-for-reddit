@@ -1,16 +1,20 @@
 import sys
 import praw
+import datetime
 
 
 def print_single_comment(comment):
+    print('https://www.reddit.com' + comment.permalink)
+    print()
+    print(comment.author.name, str(comment.score) + 'p', datetime.datetime.fromtimestamp(comment.created_utc))
     return  # stub
 
 
-def print_comment_tree(root_comment):
+def print_comment_tree(root_comment, level):
     return  # stub
 
 
-def print_comment_chain(root_comment, end_comment_id):
+def print_comment_chain(root_comment, end_comment_id, level):
     return  # stub
 
 
@@ -31,6 +35,6 @@ if __name__ == '__main__':
     if end_comment_id == 'none':
         print_single_comment(start_comment)
     elif end_comment_id == 'all':
-        print_comment_tree(start_comment)
+        print_comment_tree(start_comment, 0)
     else:
-        print_comment_chain(start_comment, end_comment_id)
+        print_comment_chain(start_comment, end_comment_id, 0)

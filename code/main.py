@@ -7,6 +7,8 @@ def print_single_comment(comment):
     print('https://www.reddit.com' + comment.permalink)
     print()
     print(comment.author.name, str(comment.score) + 'p', datetime.datetime.fromtimestamp(comment.created_utc))
+    print(comment.body)
+    print()
     return  # stub
 
 

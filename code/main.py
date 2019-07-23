@@ -9,7 +9,6 @@ def print_single_comment(comment):
     print(comment.author.name, str(comment.score) + 'p', datetime.datetime.fromtimestamp(comment.created_utc))
     print(comment.body)
     print()
-    return  # stub
 
 
 def print_comment_tree(root_comment, level):

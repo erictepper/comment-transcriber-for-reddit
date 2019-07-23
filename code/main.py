@@ -43,7 +43,7 @@ if __name__ == '__main__':
         print('Start comment does not exist.')
         sys.exit()
 
-    if end_comment_id == 'none':
+    if end_comment_id == 'none' or start_comment_id == end_comment_id:
         print_single_comment(start_comment)
     elif end_comment_id == 'all':
         print_comment_tree(start_comment, 0)

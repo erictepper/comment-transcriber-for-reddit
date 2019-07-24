@@ -63,8 +63,8 @@ class RedditCommentTranscriber:
         for reply in root_comment.replies:
             self._print_comment_tree(reply, level + 1)
 
-    # Depth-first search from the start comment to find the end comment
-    # If end comment is found, adds the chain to the comment_stack
+    # Recursive depth-first search from the start comment to find the end comment
+    # If end comment is found, adds the chain to the comment_stack and finally prints the comment_stack.
     # Returns True if end_comment is found in root_comment's descendants, False if it has not been found.
     def _print_comment_chain(self, root_comment, end_comment_id, level, comment_stack):  # todo: insert new line breaks when line overflows
         # Base case: root_comment is the end comment

@@ -17,6 +17,8 @@ class RedditCommentTranscriber:
             print('Start comment does not exist.')
             return
 
+        start_comment.refresh()
+        start_comment.replies.replace_more(limit=None)
         if end_comment_id == 'none' or start_comment_id == end_comment_id:
             self._print_single_comment(start_comment)
         elif end_comment_id == 'all':
@@ -59,7 +61,6 @@ class RedditCommentTranscriber:
             print(indent_string + 'deleted/removed')
         print(indent_string)
 
-        root_comment.refresh()
         for reply in root_comment.replies:
             self._print_comment_tree(reply, level + 1)
 
@@ -67,8 +68,6 @@ class RedditCommentTranscriber:
         if root_comment.id == end_comment_id:
             comment_stack.append(root_comment)
             return True
-
-        root_comment.refresh()
 
         found = False
         for reply in root_comment.replies:

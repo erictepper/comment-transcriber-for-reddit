@@ -16,7 +16,7 @@ class RedditCommentTranscriber:
             start_comment.body
         except praw.exceptions.ClientException:
             print('Start comment does not exist.')
-            sys.exit()
+            return
 
         if end_comment_id == 'none' or start_comment_id == end_comment_id:
             self.print_single_comment(start_comment)

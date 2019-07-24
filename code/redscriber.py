@@ -35,7 +35,7 @@ class RedditCommentTranscriber:
         return indent_string
 
     @staticmethod
-    def _print_single_comment(comment):
+    def _print_single_comment(comment):  # todo: insert new line breaks when line overflows
         print('https://www.reddit.com' + comment.permalink)
         print()
         print(comment.author.name + ' ', str(comment.score), 'points ',
@@ -63,7 +63,7 @@ class RedditCommentTranscriber:
         for reply in root_comment.replies:
             self._print_comment_tree(reply, level + 1)
 
-    def _print_comment_chain(self, root_comment, end_comment_id, level, comment_stack):
+    def _print_comment_chain(self, root_comment, end_comment_id, level, comment_stack):  # todo: insert new line breaks when line overflows
         if root_comment.id == end_comment_id:
             comment_stack.append(root_comment)
             return True

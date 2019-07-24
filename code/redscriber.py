@@ -12,13 +12,12 @@ class RedditCommentTranscriber:
         start_comment = self.reddit.comment(id=start_comment_id)
 
         try:
-            start_comment.body  # a check to make sure the start comment exists
+            start_comment.refresh()
+            start_comment.replies.replace_more(limit=None)
         except praw.exceptions.ClientException:
             print('Start comment does not exist.')
             return
 
-        start_comment.refresh()
-        start_comment.replies.replace_more(limit=None)
         if end_comment_id == 'none' or start_comment_id == end_comment_id:
             self._print_single_comment(start_comment)
         elif end_comment_id == 'all':

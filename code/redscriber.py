@@ -22,7 +22,7 @@ class RedditCommentTranscriber:
         elif end_comment_id == 'all':
             self._print_comment_tree(start_comment, 0)
         else:
-            self._print_comment_chain(start_comment, end_comment_id, 0)
+            self._print_comment_chain(start_comment, end_comment_id, 0, list())
 
     @staticmethod
     def _indent_level(level):
@@ -63,12 +63,44 @@ class RedditCommentTranscriber:
         for reply in root_comment.replies:
             self._print_comment_tree(reply, level + 1)
 
-    def _print_comment_chain(self, root_comment, end_comment_id, level):
-        # if _print_comment_chain:
-        #     stack.push(root_comment)
-        #     if level != 0:
-        #         return
+    def _print_comment_chain(self, root_comment, end_comment_id, level, comment_stack):
+        if root_comment.id == end_comment_id:
+            comment_stack.append(root_comment)
+            return True
 
-        # for each comment in the stack, pop it off and print comment
+        root_comment.refresh()
 
-        return False  # stub
+        found = False
+        for reply in root_comment.replies:
+            if self._print_comment_chain(reply, end_comment_id, level+1, comment_stack):
+                comment_stack.append(root_comment)
+                found = True
+                if level != 0:
+                    return found
+                else:
+                    break
+
+        if not found:
+            if level == 0:
+                print('End comment was not found in thread.')
+            return False
+
+        while comment_stack:
+            current = comment_stack.pop()
+            if level == 0:
+                print('https://www.reddit.com' + root_comment.permalink)
+                print()
+            indent_string = self._indent_level(level)
+            level += 1
+
+            try:
+                print(indent_string + current.author.name + ' ', str(current.score), 'points ',
+                      datetime.datetime.fromtimestamp(rcurrent.created_utc))
+                comment_body_lines = current.body.splitlines()
+                for line in comment_body_lines:
+                    print(indent_string + line)
+            except AttributeError:
+                print(indent_string + 'deleted/removed')
+            print(indent_string)
+
+        return True

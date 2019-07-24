@@ -37,6 +37,7 @@ class RedditCommentTranscriber:
     @staticmethod
     def _print_single_comment(comment):  # todo: insert new line breaks when line overflows
         print('https://www.reddit.com' + comment.permalink)
+        print('Transcribed', datetime.datetime.utcnow())
         print()
         print(comment.author.name + ' ', str(comment.score), 'points ',
               datetime.datetime.fromtimestamp(comment.created_utc), ' #' + comment.id)
@@ -46,6 +47,7 @@ class RedditCommentTranscriber:
     def _print_comment_tree(self, root_comment, level):  # todo: insert new line breaks when line overflows
         if level == 0:
             print('https://www.reddit.com' + root_comment.permalink)
+            print('Transcribed', datetime.datetime.utcnow())
             print()
 
         indent_string = self._indent_level(level)
@@ -98,6 +100,7 @@ class RedditCommentTranscriber:
             current = comment_stack.pop()
             if level == 0:
                 print('https://www.reddit.com' + root_comment.permalink)
+                print('Transcribed', datetime.datetime.utcnow())
                 print()
             indent_string = self._indent_level(level)
             level += 1

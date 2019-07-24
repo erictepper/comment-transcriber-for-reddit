@@ -12,7 +12,7 @@ class RedditCommentTranscriber:
         start_comment = self.reddit.comment(id=start_comment_id)
 
         try:
-            start_comment.body
+            start_comment.body  # a check to make sure the start comment exists
         except praw.exceptions.ClientException:
             print('Start comment does not exist.')
             return

@@ -1,4 +1,3 @@
-import sys
 import praw.exceptions
 import datetime
 

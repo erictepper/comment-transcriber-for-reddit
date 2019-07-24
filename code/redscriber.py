@@ -95,7 +95,7 @@ class RedditCommentTranscriber:
 
             try:
                 print(indent_string + current.author.name + ' ', str(current.score), 'points ',
-                      datetime.datetime.fromtimestamp(rcurrent.created_utc))
+                      datetime.datetime.fromtimestamp(current.created_utc))
                 comment_body_lines = current.body.splitlines()
                 for line in comment_body_lines:
                     print(indent_string + line)

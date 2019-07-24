@@ -71,4 +71,4 @@ class RedditCommentTranscriber:
 
         # for each comment in the stack, pop it off and print comment
 
-        return  # stub
+        return False  # stub

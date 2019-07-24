@@ -5,14 +5,14 @@ import datetime
 class RedditCommentTranscriber:
 
     def __init__(self):
-        self.reddit = praw.Reddit('auth_info')  # auth information stored in git-ignored praw.ini file for
+        self._reddit = praw.Reddit('auth_info')  # auth information stored in git-ignored praw.ini file for
         # confidentiality
 
     def transcribe(self, start_comment_id, end_comment_id):
-        start_comment = self.reddit.comment(id=start_comment_id)
+        start_comment = self._reddit.comment(id=start_comment_id)
 
         try:
-            start_comment.refresh()  # obtains the list of comments
+            start_comment.refresh()  # obtains the CommentForest (i.e. list) of replies
             start_comment.replies.replace_more(limit=None)  # replaces all instances of MoreComments with the rest
             # of the comments
         except praw.exceptions.ClientException:

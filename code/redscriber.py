@@ -13,8 +13,7 @@ class RedditCommentTranscriber:
 
         try:
             start_comment.refresh()  # obtains the CommentForest (i.e. list) of replies
-            start_comment.replies.replace_more(limit=None)  # replaces all instances of MoreComments with the rest
-            # of the comments
+            start_comment.replies.replace_more(limit=None)  # loads deeply-nested comments
         except praw.exceptions.ClientException:
             print('Start comment does not exist.')
             return

@@ -1,5 +1,3 @@
-import sys
-import praw.exceptions
 from redscriber import RedditCommentTranscriber
 
 

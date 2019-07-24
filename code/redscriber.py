@@ -64,4 +64,11 @@ class RedditCommentTranscriber:
             self._print_comment_tree(reply, level + 1)
 
     def _print_comment_chain(self, root_comment, end_comment_id, level):
+        # if _print_comment_chain:
+        #     stack.push(root_comment)
+        #     if level != 0:
+        #         return
+
+        # for each comment in the stack, pop it off and print comment
+
         return  # stub

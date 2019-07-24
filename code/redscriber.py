@@ -12,8 +12,9 @@ class RedditCommentTranscriber:
         start_comment = self.reddit.comment(id=start_comment_id)
 
         try:
-            start_comment.refresh()
-            start_comment.replies.replace_more(limit=None)
+            start_comment.refresh()  # obtains the list of comments
+            start_comment.replies.replace_more(limit=None)  # replaces all instances of MoreComments with the rest
+            # of the comments
         except praw.exceptions.ClientException:
             print('Start comment does not exist.')
             return

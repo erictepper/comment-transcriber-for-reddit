@@ -63,11 +63,17 @@ class RedditCommentTranscriber:
         for reply in root_comment.replies:
             self._print_comment_tree(reply, level + 1)
 
+    # Depth-first search from the start comment to find the end comment
+    # If end comment is found, adds the chain to the comment_stack
+    # Returns True if end_comment is found in root_comment's descendants, False if it has not been found.
     def _print_comment_chain(self, root_comment, end_comment_id, level, comment_stack):  # todo: insert new line breaks when line overflows
+        # Base case: root_comment is the end comment
         if root_comment.id == end_comment_id:
             comment_stack.append(root_comment)
             return True
 
+        # Search through children to see if any of them are an ancestor of the end comment. If so, root_comment
+        # is also an ancestor and therefore part of the chain, so add it to the comment stack
         found = False
         for reply in root_comment.replies:
             if self._print_comment_chain(reply, end_comment_id, level+1, comment_stack):
@@ -78,11 +84,16 @@ class RedditCommentTranscriber:
                 else:
                     break
 
+        # If end comment is not found in root_comment's descendants, return False
         if not found:
             if level == 0:
                 print('End comment was not found in thread.')
             return False
 
+        # We will only reach this code if we are at the starting comment, the end-comment has been found, and
+        # comment_stack contains the entire chain of comments with the starting comment on top and the ending
+        # comment on bottom.
+        # This code prints every comment on the comment_stack.
         while comment_stack:
             current = comment_stack.pop()
             if level == 0:

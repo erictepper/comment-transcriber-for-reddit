@@ -39,7 +39,7 @@ class RedditCommentTranscriber:
         print('https://www.reddit.com' + comment.permalink)
         print()
         print(comment.author.name + ' ', str(comment.score), 'points ',
-              datetime.datetime.fromtimestamp(comment.created_utc))
+              datetime.datetime.fromtimestamp(comment.created_utc), ' #' + comment.id)
         print(comment.body)
         print()
 
@@ -52,12 +52,12 @@ class RedditCommentTranscriber:
 
         try:
             print(indent_string + root_comment.author.name + ' ', str(root_comment.score), 'points ',
-                  datetime.datetime.fromtimestamp(root_comment.created_utc))
+                  datetime.datetime.fromtimestamp(root_comment.created_utc), ' #' + root_comment.id)
             comment_body_lines = root_comment.body.splitlines()
             for line in comment_body_lines:
                 print(indent_string + line)
         except AttributeError:
-            print(indent_string + 'deleted/removed')
+            print(indent_string + 'deleted/removed', ' #' + root_comment.id)
         print(indent_string)
 
         for reply in root_comment.replies:
@@ -93,12 +93,12 @@ class RedditCommentTranscriber:
 
             try:
                 print(indent_string + current.author.name + ' ', str(current.score), 'points ',
-                      datetime.datetime.fromtimestamp(current.created_utc))
+                      datetime.datetime.fromtimestamp(current.created_utc), ' #' + current.id)
                 comment_body_lines = current.body.splitlines()
                 for line in comment_body_lines:
                     print(indent_string + line)
             except AttributeError:
-                print(indent_string + 'deleted/removed')
+                print(indent_string + 'deleted/removed', ' #' + current.id)
             print(indent_string)
 
         return True

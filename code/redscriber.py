@@ -134,6 +134,10 @@ class RedditCommentTranscriber:
         words = line.split()
         return_lines = list()
 
+        if line == '':
+            return_lines.append('')
+            return return_lines
+
         current_line = ''
 
         for word in words:

@@ -18,6 +18,10 @@ class RedditCommentTranscriber:
             print('Start comment does not exist.')
             return
 
+        file_name = str(datetime.datetime.utcnow().date()) + '_' + start_comment_id + '_' + end_comment_id + '.txt'
+        save_file = open(file_name, 'w')
+
+
         if end_comment_id == 'none' or start_comment_id == end_comment_id:
             self._print_single_comment(start_comment)
         elif end_comment_id == 'all':

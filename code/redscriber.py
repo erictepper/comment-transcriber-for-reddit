@@ -20,15 +20,17 @@ class RedditCommentTranscriber:
             return
 
         file_name = str(datetime.datetime.utcnow().date()) + '_' + start_comment_id + '_' + end_comment_id + '.txt'
-        save_file = open(file_name, 'w')
-
+        file_path = os.path.join('..', 'output', file_name)
+        save_file = open(file_path, 'w')
 
         if end_comment_id == 'none' or start_comment_id == end_comment_id:
-            self._print_single_comment(start_comment)
+            self._print_single_comment(save_file, start_comment)
         elif end_comment_id == 'all':
-            self._print_comment_tree(start_comment, 0)
+            self._print_comment_tree(save_file, start_comment, 0)
         else:
-            self._print_comment_chain(start_comment, end_comment_id, 0, list())
+            self._print_comment_chain(save_file, start_comment, end_comment_id, 0, list())
+
+        save_file.close()
 
     @staticmethod
     def _indent_level(level):
@@ -40,40 +42,41 @@ class RedditCommentTranscriber:
         return indent_string
 
     @staticmethod
-    def _print_single_comment(comment):  # todo: insert new line breaks when line overflows
-        print('https://www.reddit.com' + comment.permalink)
-        print('Transcribed', datetime.datetime.utcnow())
-        print()
-        print(comment.author.name + ' ', str(comment.score), 'points ',
-              datetime.datetime.fromtimestamp(comment.created_utc), ' #' + comment.id)
-        print(comment.body)
-        print()
+    def _print_single_comment(save_file, comment):  # todo: insert new line breaks when line overflows
+        save_file.write('https://www.reddit.com' + comment.permalink + '\n')
+        save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\n')
+        save_file.write('\n')
+        save_file.write(comment.author.name + '  ' + str(comment.score) + ' points  ' +
+                        str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  #' + comment.id + '\n')
+        save_file.write(comment.body + '\n')
+        save_file.write('\n')
 
-    def _print_comment_tree(self, root_comment, level):  # todo: insert new line breaks when line overflows
+    def _print_comment_tree(self, save_file, root_comment, level):  # todo: insert new line breaks when line overflows
         if level == 0:
-            print('https://www.reddit.com' + root_comment.permalink)
-            print('Transcribed', datetime.datetime.utcnow())
-            print()
+            save_file.write('https://www.reddit.com' + root_comment.permalink + '\n')
+            save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\n')
+            save_file.write('\n')
 
         indent_string = self._indent_level(level)
 
         try:
-            print(indent_string + root_comment.author.name + ' ', str(root_comment.score), 'points ',
-                  datetime.datetime.fromtimestamp(root_comment.created_utc), ' #' + root_comment.id)
+            save_file.write(indent_string + root_comment.author.name + '  ' + str(root_comment.score) + ' points  ' +
+                            str(datetime.datetime.fromtimestamp(root_comment.created_utc)) + '  #' + root_comment.id +
+                            '\n')
             comment_body_lines = root_comment.body.splitlines()
             for line in comment_body_lines:
-                print(indent_string + line)
+                save_file.write(indent_string + line + '\n')
         except AttributeError:
-            print(indent_string + 'deleted/removed', ' #' + root_comment.id)
-        print(indent_string)
+            save_file.write(indent_string + 'deleted/removed  #' + root_comment.id + '\n')
+        save_file.write(indent_string + '\n')
 
         for reply in root_comment.replies:
-            self._print_comment_tree(reply, level + 1)
+            self._print_comment_tree(save_file, reply, level + 1)
 
     # Recursive depth-first search from the start comment to find the end comment
     # If end comment is found, adds the chain to the comment_stack and finally prints the comment_stack.
     # Returns True if end_comment is found in root_comment's descendants, False if it has not been found.
-    def _print_comment_chain(self, root_comment, end_comment_id, level, comment_stack):  # todo: insert new line breaks when line overflows
+    def _print_comment_chain(self, save_file, root_comment, end_comment_id, level, comment_stack):  # todo: insert new line breaks when line overflows
         # Base case: root_comment is the end comment
         if root_comment.id == end_comment_id:
             comment_stack.append(root_comment)
@@ -83,7 +86,7 @@ class RedditCommentTranscriber:
         # is also an ancestor and therefore part of the chain, so add it to the comment stack
         found = False
         for reply in root_comment.replies:
-            if self._print_comment_chain(reply, end_comment_id, level+1, comment_stack):
+            if self._print_comment_chain(save_file, reply, end_comment_id, level+1, comment_stack):
                 comment_stack.append(root_comment)
                 found = True
                 if level != 0:
@@ -104,20 +107,21 @@ class RedditCommentTranscriber:
         while comment_stack:
             current = comment_stack.pop()
             if level == 0:
-                print('https://www.reddit.com' + root_comment.permalink)
-                print('Transcribed', datetime.datetime.utcnow())
-                print()
+                save_file.write('https://www.reddit.com' + current.permalink + '\n')
+                save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\n')
+                save_file.write('\n')
             indent_string = self._indent_level(level)
             level += 1
 
             try:
-                print(indent_string + current.author.name + ' ', str(current.score), 'points ',
-                      datetime.datetime.fromtimestamp(current.created_utc), ' #' + current.id)
+                save_file.write(
+                    indent_string + current.author.name + '  ' + str(current.score) + ' points  ' +
+                    str(datetime.datetime.fromtimestamp(current.created_utc)) + '  #' + current.id + '\n')
                 comment_body_lines = current.body.splitlines()
                 for line in comment_body_lines:
-                    print(indent_string + line)
+                    save_file.write(indent_string + line + '\n')
             except AttributeError:
-                print(indent_string + 'deleted/removed', ' #' + current.id)
-            print(indent_string)
+                save_file.write(indent_string + 'deleted/removed  #' + current.id + '\n')
+            save_file.write(indent_string + '\n')
 
         return True

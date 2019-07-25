@@ -25,8 +25,8 @@ if __name__ == '__main__':
     transcriber.transcribe(start_comment_id='eulkvbp', end_comment_id='eun0q9h')
 
     # Emoji transcription
-    transcriber.transcribe(start_comment_id='dc2j4tb', end_comment_id='none')
+    # transcriber.transcribe(start_comment_id='dc2j4tb', end_comment_id='none')
 
     # Deleted account transcription
-    transcriber.transcribe(start_comment_id='dc2g3xq', end_comment_id='none')
+    # transcriber.transcribe(start_comment_id='dc2g3xq', end_comment_id='none')
 

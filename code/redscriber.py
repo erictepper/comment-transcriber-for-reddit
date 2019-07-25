@@ -33,15 +33,6 @@ class RedditCommentTranscriber:
         save_file.close()
 
     @staticmethod
-    def _indent_level(level):
-        indent_string = ''
-
-        for i in range(level):
-            indent_string = indent_string + '| '
-
-        return indent_string
-
-    @staticmethod
     def _print_single_comment(save_file, comment):  # todo: insert new line breaks when line overflows
         save_file.write('https://www.reddit.com' + comment.permalink + '\n')
         save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\n')
@@ -125,3 +116,12 @@ class RedditCommentTranscriber:
             save_file.write(indent_string + '\n')
 
         return True
+
+    @staticmethod
+    def _indent_level(level):
+        indent_string = ''
+
+        for i in range(level):
+            indent_string = indent_string + '| '
+
+        return indent_string

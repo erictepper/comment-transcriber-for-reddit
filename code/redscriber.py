@@ -21,9 +21,10 @@ class RedditCommentTranscriber:
             return
 
         # saves the file as date_start_comment_id_end_comment_id.txt
-        file_name = str(datetime.datetime.utcnow().date()) + '_' + start_comment_id + '_' + end_comment_id + '.txt'
+        file_name = str(datetime.datetime.utcnow().date()) + '_' + start_comment_id + '_' + end_comment_id + '.rtf'
         file_path = os.path.join('..', 'output', file_name)
         save_file = open(file_path, 'w')
+        save_file.write('{')
 
         if end_comment_id == 'none' or start_comment_id == end_comment_id:
             self._print_single_comment(save_file, start_comment)
@@ -32,37 +33,42 @@ class RedditCommentTranscriber:
         else:
             self._print_comment_chain(save_file, start_comment, end_comment_id, 0, list())
 
+        save_file.write('}')
         save_file.close()
 
-    @staticmethod
-    def _print_single_comment(save_file, comment):  # todo: insert new line breaks when line overflows
-        save_file.write('https://www.reddit.com' + comment.permalink + '\n')
-        save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\n')
-        save_file.write('\n')
+    def _print_single_comment(self, save_file, comment):  # todo: insert new line breaks when line overflows
+        save_file.write('https://www.reddit.com' + comment.permalink + ' \\line \n')
+        save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + ' \\line \n')
+        save_file.write(' \\line \n')
         save_file.write(comment.author.name + '  ' + str(comment.score) + ' points  ' +
-                        str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  #' + comment.id + '\n')
-        save_file.write(comment.body + '\n')
-        save_file.write('\n')
+                        str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  #' + comment.id + ' \\line \n')
+
+        comment_body_lines = comment.body.splitlines()
+        for line in comment_body_lines:
+            for split_line in self.split_overflow(line):
+                save_file.write(split_line + ' \\line \n')
+        
+        save_file.write(' \\line \n')
 
     def _print_comment_tree(self, save_file, root_comment, level):  # todo: insert new line breaks when line overflows
         if level == 0:
-            save_file.write('https://www.reddit.com' + root_comment.permalink + '\n')
-            save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\n')
-            save_file.write('\n')
+            save_file.write('https://www.reddit.com' + root_comment.permalink + ' \\line \n')
+            save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + ' \\line \n')
+            save_file.write(' \\line \n')
 
         indent_string = self._indent_level(level)
 
         try:
             save_file.write(indent_string + root_comment.author.name + '  ' + str(root_comment.score) + ' points  ' +
                             str(datetime.datetime.fromtimestamp(root_comment.created_utc)) + '  #' + root_comment.id +
-                            '\n')
+                            ' \\line \n')
             comment_body_lines = root_comment.body.splitlines()
             for line in comment_body_lines:
                 for split_line in self.split_overflow(line):
-                    save_file.write(indent_string + split_line + '\n')
+                    save_file.write(indent_string + split_line + ' \\line \n')
         except AttributeError:
-            save_file.write(indent_string + 'deleted/removed  #' + root_comment.id + '\n')
-        save_file.write(indent_string + '\n')
+            save_file.write(indent_string + 'deleted/removed  #' + root_comment.id + ' \\line \n')
+        save_file.write(indent_string + ' \\line \n')
 
         for reply in root_comment.replies:
             self._print_comment_tree(save_file, reply, level + 1)
@@ -101,23 +107,23 @@ class RedditCommentTranscriber:
         while comment_stack:
             current = comment_stack.pop()
             if level == 0:
-                save_file.write('https://www.reddit.com' + current.permalink + '\n')
-                save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\n')
-                save_file.write('\n')
+                save_file.write('https://www.reddit.com' + current.permalink + ' \\line \n')
+                save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + ' \\line \n')
+                save_file.write(' \\line \n')
             indent_string = self._indent_level(level)
             level += 1
 
             try:
                 save_file.write(
                     indent_string + current.author.name + '  ' + str(current.score) + ' points  ' +
-                    str(datetime.datetime.fromtimestamp(current.created_utc)) + '  #' + current.id + '\n')
+                    str(datetime.datetime.fromtimestamp(current.created_utc)) + '  #' + current.id + ' \\line \n')
                 comment_body_lines = current.body.splitlines()
                 for line in comment_body_lines:
                     for split_line in self.split_overflow(line):
-                        save_file.write(indent_string + split_line + '\n')
+                        save_file.write(indent_string + split_line + ' \\line \n')
             except AttributeError:
-                save_file.write(indent_string + 'deleted/removed  #' + current.id + '\n')
-            save_file.write(indent_string + '\n')
+                save_file.write(indent_string + 'deleted/removed  #' + current.id + ' \\line \n')
+            save_file.write(indent_string + ' \\line \n')
 
         return True
 

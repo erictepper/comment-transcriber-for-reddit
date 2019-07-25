@@ -125,3 +125,7 @@ class RedditCommentTranscriber:
             indent_string = indent_string + '| '
 
         return indent_string
+
+    @staticmethod
+    def add_overflow_breaks(line):
+        return  # stub

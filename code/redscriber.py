@@ -43,11 +43,11 @@ class RedditCommentTranscriber:
         save_file.write(comment.author.name + '  ' + str(comment.score) + ' points  ' +
                         str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  #' + comment.id + ' \\line \n')
 
-        comment_body_lines = comment.body.splitlines()
+        comment_body_lines = self.string_cleaner(comment.body).splitlines()
         for line in comment_body_lines:
             for split_line in self.split_overflow(line):
                 save_file.write(split_line + ' \\line \n')
-        
+
         save_file.write(' \\line \n')
 
     def _print_comment_tree(self, save_file, root_comment, level):  # todo: insert new line breaks when line overflows
@@ -62,7 +62,7 @@ class RedditCommentTranscriber:
             save_file.write(indent_string + root_comment.author.name + '  ' + str(root_comment.score) + ' points  ' +
                             str(datetime.datetime.fromtimestamp(root_comment.created_utc)) + '  #' + root_comment.id +
                             ' \\line \n')
-            comment_body_lines = root_comment.body.splitlines()
+            comment_body_lines = self.string_cleaner(root_comment.body).splitlines()
             for line in comment_body_lines:
                 for split_line in self.split_overflow(line):
                     save_file.write(indent_string + split_line + ' \\line \n')
@@ -114,10 +114,10 @@ class RedditCommentTranscriber:
             level += 1
 
             try:
-                save_file.write(
-                    indent_string + current.author.name + '  ' + str(current.score) + ' points  ' +
-                    str(datetime.datetime.fromtimestamp(current.created_utc)) + '  #' + current.id + ' \\line \n')
-                comment_body_lines = current.body.splitlines()
+                save_file.write(indent_string + current.author.name + '  ' + str(current.score) + ' points  ' +
+                                str(datetime.datetime.fromtimestamp(current.created_utc)) + '  #' + current.id +
+                                ' \\line \n')
+                comment_body_lines = self.string_cleaner(current.body).splitlines()
                 for line in comment_body_lines:
                     for split_line in self.split_overflow(line):
                         save_file.write(indent_string + split_line + ' \\line \n')
@@ -135,6 +135,11 @@ class RedditCommentTranscriber:
             indent_string = indent_string + '| '
 
         return indent_string
+
+    @staticmethod
+    def string_cleaner(comment_text):
+        comment_text = comment_text.replace('‘', '\'')
+        return comment_text.replace('’', '\'')  # stub
 
     @classmethod
     def split_overflow(cls, line):

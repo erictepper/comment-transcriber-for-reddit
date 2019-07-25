@@ -4,6 +4,7 @@ import datetime
 
 
 class RedditCommentTranscriber:
+    LINE_LENGTH = 80
 
     def __init__(self):
         self._reddit = praw.Reddit('auth_info')  # auth information stored in git-ignored praw.ini file for
@@ -56,7 +57,8 @@ class RedditCommentTranscriber:
                             '\n')
             comment_body_lines = root_comment.body.splitlines()
             for line in comment_body_lines:
-                save_file.write(indent_string + line + '\n')
+                for split_line in self.split_overflow(line):
+                    save_file.write(indent_string + split_line + '\n')
         except AttributeError:
             save_file.write(indent_string + 'deleted/removed  #' + root_comment.id + '\n')
         save_file.write(indent_string + '\n')
@@ -110,7 +112,8 @@ class RedditCommentTranscriber:
                     str(datetime.datetime.fromtimestamp(current.created_utc)) + '  #' + current.id + '\n')
                 comment_body_lines = current.body.splitlines()
                 for line in comment_body_lines:
-                    save_file.write(indent_string + line + '\n')
+                    for split_line in self.split_overflow(line):
+                        save_file.write(indent_string + split_line + '\n')
             except AttributeError:
                 save_file.write(indent_string + 'deleted/removed  #' + current.id + '\n')
             save_file.write(indent_string + '\n')
@@ -126,6 +129,25 @@ class RedditCommentTranscriber:
 
         return indent_string
 
-    @staticmethod
-    def add_overflow_breaks(line):
-        return  # stub
+    @classmethod
+    def split_overflow(cls, line):
+        words = line.split()
+        return_lines = list()
+
+        current_line = ''
+
+        for word in words:
+            if len(current_line) == 0 and len(word) > cls.LINE_LENGTH:
+                return_lines.append(word)
+            elif len(current_line + word) > cls.LINE_LENGTH:
+                return_lines.append(current_line)
+                current_line = word
+            elif len(current_line) == 0:
+                current_line = word
+            else:
+                current_line += ' ' + word
+
+        if len(current_line) != 0:
+            return_lines.append(current_line)
+
+        return return_lines

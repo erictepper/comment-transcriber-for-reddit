@@ -11,5 +11,5 @@ SEEMS BEST
 Above is close to how it works on Reddit, but fails to properly capture backslashes preceding *s
 
 GROUP 1: anywhere from 1 to three * that are not preceded by a \ and not succeeded by a space
-GROUP 2: 1 or more repetitions of a character that is not *, not a carriage return, or IS the sequence \*
-GROUP 3: a repeat of group 1 that is not preceded by \ or a space
+GROUP 2: 1 or more repetitions of a character that is not '*', not a carriage return, or IS the sequence '\*', or IS the sequence ' *'
+GROUP 3: a repeat of group 1 that is not preceded by an odd number of '\'s or a space

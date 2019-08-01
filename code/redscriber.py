@@ -1,6 +1,7 @@
 import os
 import praw.exceptions
 import datetime
+import snoomark
 
 
 class RedditCommentTranscriber:
@@ -43,10 +44,8 @@ class RedditCommentTranscriber:
         save_file.write(comment.author.name + '  ' + str(comment.score) + ' points  ' +
                         str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  #' + comment.id + ' \\line \n')
 
-        comment_body_lines = self.string_cleaner(comment.body).splitlines()
-        for line in comment_body_lines:
-            for split_line in self.split_overflow(line):
-                save_file.write(split_line + ' \\line \n')
+        current_body = snoomark.comrak.to_html(self.string_cleaner(comment.body)).decode("utf-8")
+        save_file.write(current_body)
 
         save_file.write(' \\line \n')
 
@@ -117,10 +116,12 @@ class RedditCommentTranscriber:
                 save_file.write(indent_string + current.author.name + '  ' + str(current.score) + ' points  ' +
                                 str(datetime.datetime.fromtimestamp(current.created_utc)) + '  #' + current.id +
                                 ' \\line \n')
-                comment_body_lines = self.string_cleaner(current.body).splitlines()
+                current_body = snoomark.comrak.to_html(self.string_cleaner(current.body)).decode("utf-8")
+                comment_body_lines = current_body.splitlines()
                 for line in comment_body_lines:
-                    for split_line in self.split_overflow(line):
-                        save_file.write(indent_string + split_line + ' \\line \n')
+                    # for split_line in self.split_overflow(line):
+                    #     save_file.write(indent_string + split_line + ' \\line \n')
+                    save_file.write(indent_string + line + ' \\line \n')
             except AttributeError:
                 save_file.write(indent_string + 'deleted/removed  #' + current.id + ' \\line \n')
             save_file.write(indent_string + ' \\line \n')

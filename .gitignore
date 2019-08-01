@@ -4,3 +4,7 @@ __pycache__/
 # IDE files
 .idea/
 code/praw.ini
+
+# Markdown Parsing
+pulldown-cmark-master.zip
+pulldown-cmark-master/

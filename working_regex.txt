@@ -10,6 +10,11 @@ SEEMS BEST
 (?<!\\)(\*{1,3}?)(?! )((?:[^\*\n]|(?:\\\*)|(?: \*))+?)(?<![\\ ])\1 
 Above is close to how it works on Reddit, but fails to properly capture backslashes preceding *s
 
+(?<!\\)(\*{1,3}?)(?! )
 GROUP 1: anywhere from 1 to three * that are not preceded by a \ and not succeeded by a space
+
+((?:[^\*\n]|(?:\\\*)|(?: \*))+?)
 GROUP 2: 1 or more repetitions of a character that is not '*', not a carriage return, or IS the sequence '\*', or IS the sequence ' *'
-GROUP 3: a repeat of group 1 that is not preceded by an odd number of '\'s or a space
+
+(?<![\\ ])\1
+GROUP 3: a repeat of group 1 that is not preceded by a \ or a space

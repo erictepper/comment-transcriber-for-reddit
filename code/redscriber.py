@@ -21,7 +21,7 @@ class RedditCommentTranscriber:
             print('Start comment does not exist.')
             return
 
-        # saves the file as date_start_comment_id_end_comment_id.txt
+        # saves the file as date_[start_comment_id]_[end_comment_id].rtf
         file_name = str(datetime.datetime.utcnow().date()) + '_' + start_comment_id + '_' + end_comment_id + '.rtf'
         file_path = os.path.join('..', 'output', file_name)
         save_file = open(file_path, 'w')

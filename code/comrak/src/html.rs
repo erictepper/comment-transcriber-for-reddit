@@ -195,10 +195,10 @@ impl<'o> HtmlFormatter<'o> {
             NodeValue::BlockQuote => {
                 if entering {
                     self.cr();
-                    self.s += "<blockquote>\n";
+                    self.s += "\\cf2 \""; // edited by erictepper
                 } else {
                     self.cr();
-                    self.s += "</blockquote>\n";
+                    self.s += "\"\\cf0 "; // edited by erictepper
                 }
             }
             NodeValue::List(ref nl) => {

@@ -25,7 +25,11 @@ class RedditCommentTranscriber:
         file_name = str(datetime.datetime.utcnow().date()) + '_' + start_comment_id + '_' + end_comment_id + '.rtf'
         file_path = os.path.join('..', 'output', file_name)
         save_file = open(file_path, 'w')
-        save_file.write(r'{\rtf1\ansi\ansicpg1252\ ')
+        save_file.write(r'{\rtf1\ansi\ansicpg1252' + '\n')
+        
+        # colortbl is tied to the blockquote parsing in comrak/src/html.rs,
+        # which uses the 2nd entry in the colortbl (0-indexed)
+        save_file.write(r'{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red85\green142\blue40;}' + '\n')
 
         if end_comment_id == 'none' or start_comment_id == end_comment_id:
             self._print_single_comment(save_file, start_comment)

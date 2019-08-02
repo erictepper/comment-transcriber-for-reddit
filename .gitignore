@@ -6,7 +6,6 @@ __pycache__/
 code/praw.ini
 
 # Markdown Parsing
-snoomark-binding-master.zip
 code/Snoomark README.md
 code/pulldown-cmark/
 

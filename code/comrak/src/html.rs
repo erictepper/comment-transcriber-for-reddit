@@ -360,9 +360,9 @@ impl<'o> HtmlFormatter<'o> {
             }
             NodeValue::Superscript => {
                 if entering {
-                    self.s += "<sup>";
+                    self.s += "\\super "; // edited by erictepper
                 } else {
-                    self.s += "</sup>";
+                    self.s += "\\nosupersub "; // edited by erictepper
                 }
             }
             NodeValue::Link(ref nl) => {

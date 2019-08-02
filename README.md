@@ -10,6 +10,8 @@ The following files contain code written exclusively by me:
 The following files contain code written by others with modifications by me:
 - code/comrak/src/html.rs
 
+Individual lines that I have changed in the above file are marked with the comment 'edited by erictepper'.
+
 output/ contains the output .rtf files of the test cases I have written. 
 
 #### Credits

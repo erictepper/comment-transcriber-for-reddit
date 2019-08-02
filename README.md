@@ -7,10 +7,8 @@ The following files contain code written exclusively by me:
 - test.py
 - working_regex.txt
 
-The following files contain code written by others with modifications by me:
+The following files contain code written by others with modifications by me<sup>1</sup>:
 - code/comrak/src/html.rs
-
-Individual lines that I have changed in the above file are marked with the comment 'edited by erictepper'.
 
 output/ contains the output .rtf files of the test cases I have written. 
 
@@ -24,3 +22,7 @@ From what I can tell, these cited projects are officially used for parsing
 Reddit's markdown and converting it to html. code/comrak/src/html.rs has been edited by me to change the output of the 
 parser from html tags to .rtf syntax. code/comrak is also the program that I am using for parsing the markdown as I ran 
 into errors using pulldown-cmark. 
+
+---
+
+1) Modifications are marked with the comment 'edited by erictepper'

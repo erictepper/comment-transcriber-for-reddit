@@ -38,29 +38,29 @@ class RedditCommentTranscriber:
         save_file.close()
 
     def _print_single_comment(self, save_file, comment):  # todo: insert new line breaks when line overflows
-        save_file.write('https://www.reddit.com' + comment.permalink + ' \\line \n')
-        save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + ' \\line \n')
-        save_file.write('\n\\par ')
-        save_file.write(comment.author.name + '  ' + str(comment.score) + ' points  ' +
-                        str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  #' + comment.id + ' \\line \n')
+        save_file.write('\pard https://www.reddit.com' + comment.permalink + '\\\n')
+        save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
+        save_file.write('\\\n')
+        save_file.write('\\pard ' + comment.author.name + '  ' + str(comment.score) + ' points  ' +
+                        str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  #' + comment.id + '\\\n')
 
         current_body = self.string_cleaner(snoomark.comrak.to_html(comment.body).decode("utf-8"))
         save_file.write(current_body)
 
-        save_file.write(' \\line \n')
+        save_file.write('\\\n')
 
     def _print_comment_tree(self, save_file, root_comment, level):  # todo: insert new line breaks when line overflows
         if level == 0:
-            save_file.write('https://www.reddit.com' + root_comment.permalink + ' \\line \n')
-            save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + ' \\line \n')
-            save_file.write('\n')
+            save_file.write('\pard https://www.reddit.com' + root_comment.permalink + '\\\n')
+            save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
+            save_file.write('\\\n')
 
         indent_string = self._indent_level(level)
 
         try:
-            save_file.write('\\par ' + indent_string + root_comment.author.name + '  ' + str(root_comment.score) +
+            save_file.write(indent_string + root_comment.author.name + '  ' + str(root_comment.score) +
                             ' points  ' + str(datetime.datetime.fromtimestamp(root_comment.created_utc)) + '  #' +
-                            root_comment.id + ' \\line \n')
+                            root_comment.id + '\\\n')
             current_body = self.string_cleaner(snoomark.comrak.to_html(root_comment.body).decode("utf-8"))
             save_file.write(current_body) #comment_body_lines = current_body.splitlines()
             #for line in comment_body_lines:
@@ -68,8 +68,8 @@ class RedditCommentTranscriber:
                 #     save_file.write(indent_string + split_line + ' \\line \n')
             #    save_file.write(line)
         except AttributeError:
-            save_file.write('\\par ' + indent_string + 'deleted/removed  #' + root_comment.id + ' \\line \n')
-        save_file.write(indent_string + ' \\line \n')
+            save_file.write(indent_string + 'deleted/removed  #' + root_comment.id + '\\\n')
+        save_file.write('\\\n')
 
         for reply in root_comment.replies:
             self._print_comment_tree(save_file, reply, level + 1)
@@ -133,10 +133,7 @@ class RedditCommentTranscriber:
 
     @staticmethod
     def _indent_level(level):
-        indent_string = ''
-
-        for i in range(level):
-            indent_string = indent_string + '| '
+        indent_string = '\\pard\\li' + str(140*level) + '\\fi0\\pardirnatural\\partightenfactor0\n'
 
         return indent_string
 

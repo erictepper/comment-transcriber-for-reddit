@@ -12,7 +12,7 @@ The following files contain code written by others with modifications by me:
 
 output/ contains the output .rtf files of the test cases I have written. 
 
-####Credits
+#### Credits
 
 - code/snoomark.py - https://github.com/zeantsoi/snoomark-binding
 - code/comrak/ - https://github.com/zeantsoi/comrak

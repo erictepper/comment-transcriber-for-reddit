@@ -1,6 +1,9 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 
+# Test output files
+output/
+
 # IDE files
 .idea/
 code/praw.ini

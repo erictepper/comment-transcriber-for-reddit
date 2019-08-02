@@ -46,7 +46,7 @@ class RedditCommentTranscriber:
         save_file.write('\pard https://www.reddit.com' + comment.permalink + '\\\n')
         save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
         save_file.write('\\\n')
-        save_file.write('\\pard \\b ' + comment.author.name + '  ' + str(comment.score) + ' points  ' +
+        save_file.write('\\pard \\b ' + comment.author.name + '  ' + str(comment.score) + ' points  ' +  # todo: don't like the way bolding looks in the titles, fix later
                         str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  #' + comment.id + '\\b0 \\\n')
 
         current_body = self.string_cleaner(snoomark.comrak.to_html(comment.body).decode("utf-8"))

@@ -67,11 +67,7 @@ class RedditCommentTranscriber:
                             ' points  ' + str(datetime.datetime.fromtimestamp(root_comment.created_utc)) + '  #' +
                             root_comment.id + '\\b0 \\\n')
             current_body = self.string_cleaner(snoomark.comrak.to_html(root_comment.body).decode("utf-8"))
-            save_file.write(current_body) #comment_body_lines = current_body.splitlines()
-            #for line in comment_body_lines:
-                # for split_line in self.split_overflow(line):
-                #     save_file.write(indent_string + split_line + ' \\line \n')
-            #    save_file.write(line)
+            save_file.write(current_body)
         except AttributeError:
             save_file.write(indent_string + '\\b deleted/removed  #' + root_comment.id + '\\b0 \\\n\\\n')
 
@@ -112,7 +108,7 @@ class RedditCommentTranscriber:
         while comment_stack:
             current = comment_stack.pop()
             if level == 0:
-                save_file.write('\pard https://www.reddit.com' + current.permalink + '\\\n')
+                save_file.write('\\pard https://www.reddit.com' + current.permalink + '\\\n')
                 save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
                 save_file.write('\\\n')
 
@@ -125,11 +121,6 @@ class RedditCommentTranscriber:
                                 '\\b0 \\\n')
                 current_body = self.string_cleaner(snoomark.comrak.to_html(current.body).decode("utf-8"))
                 save_file.write(current_body)
-                #comment_body_lines = current_body.splitlines()
-                #for line in comment_body_lines:
-                    # for split_line in self.split_overflow(line):
-                    #     save_file.write(indent_string + split_line + ' \\line \n')
-                #    save_file.write(indent_string + line + ' \\line \n')
             except AttributeError:
                 save_file.write(indent_string + '\\b deleted/removed  #' + current.id + '\\b0 \\\n\\\n')
 
@@ -151,30 +142,3 @@ class RedditCommentTranscriber:
         comment_text = comment_text.replace('”', r'\'94')
         comment_text = comment_text.replace('&amp;', '&')
         return comment_text.replace('‘', r'\'91')
-
-    @classmethod
-    def split_overflow(cls, line):
-        words = line.split()
-        return_lines = list()
-
-        if line == '':
-            return_lines.append('')
-            return return_lines
-
-        current_line = ''
-
-        for word in words:
-            if len(current_line) == 0 and len(word) > cls.LINE_LENGTH:
-                return_lines.append(word)
-            elif len(current_line + word) > cls.LINE_LENGTH:
-                return_lines.append(current_line)
-                current_line = word
-            elif len(current_line) == 0:
-                current_line = word
-            else:
-                current_line += ' ' + word
-
-        if len(current_line) != 0:
-            return_lines.append(current_line)
-
-        return return_lines

@@ -7,10 +7,9 @@ code/praw.ini
 
 # Markdown Parsing
 code/Snoomark README.md
-code/pulldown-cmark/
 
-# Comrak
-code/comrak/target
+# comrak
+code/comrak/target/
 code/comrak/Cargo.lock
 code/comrak/.editorconfig
 code/comrak/.gitmodules
@@ -22,3 +21,12 @@ code/comrak/rustfmt.toml
 code/comrak/script/
 code/comrak/spec_out.txt
 code/comrak/vendor/
+
+# pulldown-cmark
+code/pulldown-cmark/target/
+code/pulldown-cmark/Cargo.lock
+code/pulldown-cmark/Cargo.toml
+code/pulldown-cmark/specs/
+code/pulldown-cmark/tests/
+code/pulldown-cmark/third_party/
+code/pulldown-cmark/tools/

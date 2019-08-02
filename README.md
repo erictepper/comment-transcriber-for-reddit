@@ -20,8 +20,8 @@ output/ contains the output .rtf files of the test cases I have written.
 
 From what I can tell, these cited projects are officially used for parsing 
 Reddit's markdown and converting it to html. They are required in my project in order to take the text formatting that 
-Reddit uses and convert it into .rtf formatting. code/comrak/src/html.rs has been edited by me to change the output of 
-the parser from html tags to .rtf syntax. code/comrak is also the program that I am using for parsing the markdown as I 
+Reddit uses (SnooMark) and convert it into .rtf formatting. code/comrak/src/html.rs has been edited by me to change the output of 
+the parser from html syntax to .rtf syntax. code/comrak is also the program that I am using for parsing the markdown as I 
 ran into errors using pulldown-cmark. 
 
 ---

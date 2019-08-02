@@ -43,7 +43,7 @@ class RedditCommentTranscriber:
         save_file.close()
 
     def _print_single_comment(self, save_file, comment):  # todo: insert new line breaks when line overflows, fix bug where user is deleted but comment still exists
-        save_file.write('\pard https://www.reddit.com' + comment.permalink + '\\\n')
+        save_file.write('\\pard https://www.reddit.com' + comment.permalink + '\\\n')
         save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
         save_file.write('\\\n')
         save_file.write('\\pard \\b ' + comment.author.name + '  ' + str(comment.score) + ' points  ' +  # todo: don't like the way bolding looks in the titles, fix later
@@ -56,7 +56,7 @@ class RedditCommentTranscriber:
 
     def _print_comment_tree(self, save_file, root_comment, level):  # todo: insert new line breaks when line overflows
         if level == 0:
-            save_file.write('\pard https://www.reddit.com' + root_comment.permalink + '\\\n')
+            save_file.write('\\pard https://www.reddit.com' + root_comment.permalink + '\\\n')
             save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
             save_file.write('\\\n')
 

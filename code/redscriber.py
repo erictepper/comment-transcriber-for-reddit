@@ -148,6 +148,7 @@ class RedditCommentTranscriber:
         comment_text = comment_text.replace(r'&quot;', '"')
         comment_text = comment_text.replace('“', r'\'93')
         comment_text = comment_text.replace('”', r'\'94')
+        comment_text = comment_text.replace('&amp;', '&')
         return comment_text.replace('‘', r'\'91')
 
     @classmethod

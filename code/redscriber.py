@@ -29,7 +29,8 @@ class RedditCommentTranscriber:
 
         # colortbl is tied to the blockquote parsing in comrak/src/html.rs,
         # which uses the 2nd entry in the colortbl (0-indexed)
-        save_file.write(r'{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red85\green142\blue40;}' + '\n')
+        save_file.write(r'{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red85\green142\blue40;}' + '\n' +
+                        r'{\*\expandedcolortbl;;\cssrgb\c39975\c61335\c20601;}' + '\n')
 
         if end_comment_id == 'none' or start_comment_id == end_comment_id:
             self._print_single_comment(save_file, start_comment)

@@ -1,9 +1,23 @@
 # Reddit Comment Transcriber
 A program that converts a thread of Reddit comments to a rich text file. 
 
-code/snoomark.py, code/comrak/, and code/pulldown-cmark/ are taken from https://github.com/zeantsoi/snoomark-binding, 
-https://github.com/zeantsoi/comrak, and https://github.com/zeantsoi/pulldown-cmark respectively for use converting 
-markdown to .rtf formatting (from what I can tell, these cited projects are what are officially used for parsing 
-Reddit's markdown and converting it to html). code/comrak/src/html.rs has been edited by me to change the output of the 
+The following files contain code written exclusively by me:
+- main.py
+- redscriber.py
+- test.py
+- working_regex.txt
+
+The following files contain code written by others with modifications by me:
+- code/comrak/src/html.rs
+
+output/ contains the output .rtf files of the test cases I have written. 
+
+####Credits
+- code/snoomark.py - https://github.com/zeantsoi/snoomark-binding
+- code/comrak/ - https://github.com/zeantsoi/comrak
+- code/pulldown-cmark/ - https://github.com/zeantsoi/pulldown-cmark
+
+From what I can tell, these cited projects are officially used for parsing 
+Reddit's markdown and converting it to html. code/comrak/src/html.rs has been edited by me to change the output of the 
 parser from html tags to .rtf syntax. code/comrak is also the program that I am using for parsing the markdown as I ran 
 into errors using pulldown-cmark. 

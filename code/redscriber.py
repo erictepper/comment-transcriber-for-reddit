@@ -68,8 +68,7 @@ class RedditCommentTranscriber:
                 #     save_file.write(indent_string + split_line + ' \\line \n')
             #    save_file.write(line)
         except AttributeError:
-            save_file.write(indent_string + 'deleted/removed  #' + root_comment.id + '\\\n')
-        save_file.write('\\\n')
+            save_file.write(indent_string + 'deleted/removed  #' + root_comment.id + '\\\n\\\n')
 
         for reply in root_comment.replies:
             self._print_comment_tree(save_file, reply, level + 1)
@@ -108,16 +107,16 @@ class RedditCommentTranscriber:
         while comment_stack:
             current = comment_stack.pop()
             if level == 0:
-                save_file.write('https://www.reddit.com' + current.permalink + ' \\line \n')
-                save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + ' \\line \n')
-                save_file.write(' \\line \n')
+                save_file.write('\pard https://www.reddit.com' + current.permalink + '\\\n')
+                save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
+                save_file.write('\\\n')
+
             indent_string = self._indent_level(level)
             level += 1
 
             try:
                 save_file.write(indent_string + current.author.name + '  ' + str(current.score) + ' points  ' +
-                                str(datetime.datetime.fromtimestamp(current.created_utc)) + '  #' + current.id +
-                                ' \\line \n')
+                                str(datetime.datetime.fromtimestamp(current.created_utc)) + '  #' + current.id + '\\\n')
                 current_body = self.string_cleaner(snoomark.comrak.to_html(current.body).decode("utf-8"))
                 save_file.write(current_body)
                 #comment_body_lines = current_body.splitlines()
@@ -126,8 +125,7 @@ class RedditCommentTranscriber:
                     #     save_file.write(indent_string + split_line + ' \\line \n')
                 #    save_file.write(indent_string + line + ' \\line \n')
             except AttributeError:
-                save_file.write(indent_string + 'deleted/removed  #' + current.id + ' \\line \n')
-            save_file.write(indent_string + ' \\line \n')
+                save_file.write(indent_string + 'deleted/removed  #' + current.id + '\\\n\\\n')
 
         return True
 

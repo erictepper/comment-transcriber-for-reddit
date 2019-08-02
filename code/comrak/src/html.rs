@@ -275,7 +275,7 @@ impl<'o> HtmlFormatter<'o> {
             NodeValue::ThematicBreak => {
                 if entering {
                     self.cr();
-                    self.s += "\\line\n"; // edited by erictepper
+                    self.s += "\\\n"; // edited by erictepper
                 }
             }
             NodeValue::Paragraph => {
@@ -291,7 +291,7 @@ impl<'o> HtmlFormatter<'o> {
                         self.cr(); // edited by erictepper
                     }
                 } else if !tight {
-                    self.s += "\\line\n\\line\n"; // edited by erictepper
+                    self.s += "\\\n\\\n"; // edited by erictepper
                 }
             }
             NodeValue::Text(ref literal) => {
@@ -301,13 +301,13 @@ impl<'o> HtmlFormatter<'o> {
             }
             NodeValue::LineBreak => {
                 if entering {
-                    self.s += "\\line\n"; // edited by erictepper
+                    self.s += "\\\n"; // edited by erictepper
                 }
             }
             NodeValue::SoftBreak => {
                 if entering {
                     if self.options.hardbreaks {
-                        self.s += "\\line\n"; // edited by erictepper
+                        self.s += "\\\n"; // edited by erictepper
                     } else {
                         self.s += "\n"; // edited by erictepper
                     }

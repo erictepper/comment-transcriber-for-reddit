@@ -13,6 +13,15 @@ code/pulldown-cmark/
 
 # Comrak
 code/comrak.zip
-code/comrak/
-!code/comrak/src/*
-!code/comrak/README.md
+code/comrak/target
+code/comrak/Cargo.lock
+code/comrak/.editorconfig
+code/comrak/.gitmodules
+code/comrak/.travis.yml
+code/comrak/Cargo.toml
+code/comrak/hooks/
+code/comrak/Makefile
+code/comrak/rustfmt.toml
+code/comrak/script/
+code/comrak/spec_out.txt
+code/comrak/vendor/

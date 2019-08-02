@@ -195,10 +195,10 @@ impl<'o> HtmlFormatter<'o> {
             NodeValue::BlockQuote => {
                 if entering {
                     self.cr();
-                    self.s += "\\cf2 "; // edited by erictepper
+                    self.s += "<blockquote>\n";
                 } else {
                     self.cr();
-                    self.s += "\\cf0 "; // edited by erictepper
+                    self.s += "</blockquote>\n";
                 }
             }
             NodeValue::List(ref nl) => {
@@ -275,7 +275,7 @@ impl<'o> HtmlFormatter<'o> {
             NodeValue::ThematicBreak => {
                 if entering {
                     self.cr();
-                    self.s += "\\\n"; // edited by erictepper
+                    self.s += "<hr />\n";
                 }
             }
             NodeValue::Paragraph => {
@@ -288,10 +288,11 @@ impl<'o> HtmlFormatter<'o> {
 
                 if entering {
                     if !tight {
-                        self.cr(); // edited by erictepper
+                        self.cr();
+                        self.s += "<p>";
                     }
                 } else if !tight {
-                    self.s += "\\\n\\\n"; // edited by erictepper
+                    self.s += "</p>\n";
                 }
             }
             NodeValue::Text(ref literal) => {
@@ -301,15 +302,15 @@ impl<'o> HtmlFormatter<'o> {
             }
             NodeValue::LineBreak => {
                 if entering {
-                    self.s += "\\\n"; // edited by erictepper
+                    self.s += "<br />\n";
                 }
             }
             NodeValue::SoftBreak => {
                 if entering {
                     if self.options.hardbreaks {
-                        self.s += "\\\n"; // edited by erictepper
+                        self.s += "<br />\n";
                     } else {
-                        self.s += "\n"; // edited by erictepper
+                        self.s += "\n";
                     }
                 }
             }
@@ -332,23 +333,23 @@ impl<'o> HtmlFormatter<'o> {
             }
             NodeValue::Strong => {
                 if entering {
-                    self.s += "\\b "; // edited by erictepper
+                    self.s += "<strong>";
                 } else {
-                    self.s += "\\b0 "; // edited by erictepper
+                    self.s += "</strong>";
                 }
             }
             NodeValue::Emph => {
                 if entering {
-                    self.s += "\\i "; // edited by erictepper
+                    self.s += "<em>";
                 } else {
-                    self.s += "\\i0 "; // edited by erictepper
+                    self.s += "</em>";
                 }
             }
             NodeValue::Underline => {
                 if entering {
-                    self.s += "\\ul "; // edited by erictepper
+                    self.s += "<u>";
                 } else {
-                    self.s += "\\ulnone "; // edited by erictepper
+                    self.s += "</u>";
                 }
             }
             NodeValue::Strikethrough => {
@@ -360,22 +361,22 @@ impl<'o> HtmlFormatter<'o> {
             }
             NodeValue::Superscript => {
                 if entering {
-                    self.s += "\\super "; // edited by erictepper
+                    self.s += "<sup>";
                 } else {
-                    self.s += "\\nosupersub "; // edited by erictepper
+                    self.s += "</sup>";
                 }
             }
             NodeValue::Link(ref nl) => {
                 if entering {
-                    self.s += r#"{\field{\*\fldinst{HYPERLINK ""#; // edited by erictepper
+                    self.s += "<a href=\"";
                     self.escape_href(&nl.url);
                     if !nl.title.is_empty() {
                         self.s += "\" title=\"";
                         self.escape(&nl.title);
                     }
-                    self.s += r#"}}{\fldrslt "#; // edited by erictepper
+                    self.s += "\">";
                 } else {
-                    self.s += r#"}}"#; // edited by erictepper
+                    self.s += "</a>";
                 }
             }
             NodeValue::Image(ref nl) => {

@@ -26,7 +26,7 @@ class RedditCommentTranscriber:
         file_path = os.path.join('..', 'output', file_name)
         save_file = open(file_path, 'w')
         save_file.write(r'{\rtf1\ansi\ansicpg1252' + '\n')
-        
+
         # colortbl is tied to the blockquote parsing in comrak/src/html.rs,
         # which uses the 2nd entry in the colortbl (0-indexed)
         save_file.write(r'{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red85\green142\blue40;}' + '\n')
@@ -101,7 +101,7 @@ class RedditCommentTranscriber:
         # If end comment is not found in root_comment's descendants, return False
         if not found:
             if level == 0:
-                print('End comment was not found in thread.')
+                print('End comment was not found in thread.')  # todo: raise praw.exceptions.ClientException if end comment not found
             return False
 
         # We will only reach this code if we are at the starting comment, the end-comment has been found, and

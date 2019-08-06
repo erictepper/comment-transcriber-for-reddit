@@ -44,7 +44,8 @@ class RedditCommentTranscriber:
         save_file.close()
 
     def _print_single_comment(self, save_file, comment):  # todo: insert new line breaks when line overflows, fix bug where user is deleted but comment still exists
-        save_file.write('\\pard https://www.reddit.com' + comment.permalink + '\\\n')
+        save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "https://www.reddit.com' + comment.permalink)
+        save_file.write(r'"}}{\fldrslt https://www.reddit.com' + comment.permalink + '}}\\\n')
         save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
         save_file.write('\\\n')
         comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/' + comment.author.name

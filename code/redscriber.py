@@ -61,8 +61,8 @@ class RedditCommentTranscriber:
 
     def _print_comment_tree(self, save_file, root_comment, level):  # todo: insert new line breaks when line overflows
         if level == 0:
-            save_file.write('\\pard https://www.reddit.com' + root_comment.permalink + '\\\n')
-            save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
+            save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "https://www.reddit.com' + root_comment.permalink)
+            save_file.write(r'"}}{\fldrslt https://www.reddit.com' + root_comment.permalink + '}}\\\n')
             save_file.write('\\\n')
 
         indent_string = self._indent_level(level)
@@ -116,8 +116,8 @@ class RedditCommentTranscriber:
         while comment_stack:
             current = comment_stack.pop()
             if level == 0:
-                save_file.write('\\pard https://www.reddit.com' + current.permalink + '\\\n')
-                save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
+                save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "https://www.reddit.com' + current.permalink)
+                save_file.write(r'"}}{\fldrslt https://www.reddit.com' + current.permalink + '}}\\\n')
                 save_file.write('\\\n')
 
             indent_string = self._indent_level(level)

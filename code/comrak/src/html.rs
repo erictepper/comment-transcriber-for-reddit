@@ -373,7 +373,7 @@ impl<'o> HtmlFormatter<'o> {
                         self.s += "\" title=\"";
                         self.escape(&nl.title);
                     }
-                    self.s += r#"}}{\fldrslt "#; // edited by erictepper
+                    self.s += r#""}}{\fldrslt "#; // edited by erictepper
                 } else {
                     self.s += r#"}}"#; // edited by erictepper
                 }

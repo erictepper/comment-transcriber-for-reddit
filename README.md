@@ -13,6 +13,11 @@ The following files contain code written by others with modifications by me<sup>
 
 output/ contains the output .rtf files of the test cases I have written. 
 
+## To-do
+1. Format header links to be click-able.
+2. Format comment id numbers to be links to the comment.
+3. Create function that handles unordered/ordered list html parsing.
+
 #### Credits
 
 - code/snoomark.py - https://github.com/zeantsoi/snoomark-binding

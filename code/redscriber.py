@@ -29,8 +29,9 @@ class RedditCommentTranscriber:
 
         # colortbl is tied to the blockquote parsing in comrak/src/html.rs,
         # which uses the 2nd entry in the colortbl (0-indexed)
-        save_file.write(r'{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red85\green142\blue40;}' + '\n' +
-                        r'{\*\expandedcolortbl;;\cssrgb\c39975\c61335\c20601;}' + '\n')
+        save_file.write(r'{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red85\green142\blue40;' +
+                        r'\red127\green127\blue127;}' + '\n' +
+                        r'{\*\expandedcolortbl;;\cssrgb\c39975\c61335\c20601;\cssrgb\c57046\c57047\c57046;}' + '\n')
 
         if end_comment_id == 'none' or start_comment_id == end_comment_id:
             self._print_single_comment(save_file, start_comment)
@@ -46,8 +47,11 @@ class RedditCommentTranscriber:
         save_file.write('\\pard https://www.reddit.com' + comment.permalink + '\\\n')
         save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
         save_file.write('\\\n')
-        save_file.write('\\pard \\b ' + comment.author.name + '  ' + str(comment.score) + ' points  ' +  # todo: don't like the way bolding looks in the titles, fix later
-                        str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  #' + comment.id + '\\b0 \\\n')
+        comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/' + comment.author.name
+        comment_author_header += r'/"}}{\fldrslt ' + comment.author.name + '}}'
+        save_file.write('\\pard \\fs22 \\cf3 ' + comment_author_header + '  ' + str(comment.score) + ' points  ' +  # todo: don't like the way bolding looks in the titles, fix later
+                        str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  #' + comment.id +
+                        '\\fs24 \\cf0 \\\n')
 
         current_body = self.string_cleaner(snoomark.comrak.to_html(comment.body).decode("utf-8"))
         save_file.write(current_body)
@@ -63,13 +67,16 @@ class RedditCommentTranscriber:
         indent_string = self._indent_level(level)
 
         try:
-            save_file.write(indent_string + '\\b ' + root_comment.author.name + '  ' + str(root_comment.score) +
+            comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/'
+            comment_author_header += root_comment.author.name + r'/"}}{\fldrslt ' + root_comment.author.name + '}}'
+            save_file.write(indent_string + '\\fs22 \\cf3 ' + comment_author_header + '  ' + str(root_comment.score) +
                             ' points  ' + str(datetime.datetime.fromtimestamp(root_comment.created_utc)) + '  #' +
-                            root_comment.id + '\\b0 \\\n')
+                            root_comment.id + '\\fs24 \\cf0 \\\n')
             current_body = self.string_cleaner(snoomark.comrak.to_html(root_comment.body).decode("utf-8"))
             save_file.write(current_body)
         except AttributeError:
-            save_file.write(indent_string + '\\b deleted/removed  #' + root_comment.id + '\\b0 \\\n\\\n')
+            save_file.write(indent_string + '\\fs22 \\cf3 deleted/removed  #' + root_comment.id +
+                            '\\fs24 \\cf0 \\\n\\\n')
 
         for reply in root_comment.replies:
             self._print_comment_tree(save_file, reply, level + 1)
@@ -116,13 +123,16 @@ class RedditCommentTranscriber:
             level += 1
 
             try:
-                save_file.write(indent_string + '\\b ' + current.author.name + '  ' + str(current.score) + ' points  ' +
-                                str(datetime.datetime.fromtimestamp(current.created_utc)) + '  #' + current.id +
-                                '\\b0 \\\n')
+                comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/'
+                comment_author_header += current.author.name + r'/"}}{\fldrslt ' + current.author.name + '}}'
+                save_file.write(indent_string + '\\fs22 \\cf3 ' + comment_author_header + '  ' + str(current.score) +
+                                ' points  ' + str(datetime.datetime.fromtimestamp(current.created_utc)) + '  #' +
+                                current.id + '\\fs24 \\cf0 \\\n')
                 current_body = self.string_cleaner(snoomark.comrak.to_html(current.body).decode("utf-8"))
                 save_file.write(current_body)
             except AttributeError:
-                save_file.write(indent_string + '\\b deleted/removed  #' + current.id + '\\b0 \\\n\\\n')
+                save_file.write(indent_string + '\\fs22 \\cf3 deleted/removed  #' + current.id +
+                                '\\fs24 \\cf0 \\\n\\\n')
 
         return True
 

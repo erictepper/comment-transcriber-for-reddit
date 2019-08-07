@@ -32,8 +32,9 @@ if __name__ == '__main__':
     # transcriber.transcribe(start_comment_id='dc2j4tb', end_comment_id='none')
 
     # Table markdown transcription
-    # transcriber.transcribe(start_comment_id='ew6ld63', end_comment_id='none')
+    transcriber.transcribe(start_comment_id='ew6ld63', end_comment_id='none')
 
     # Deleted account transcription
-    # transcriber.transcribe(start_comment_id='dc2g3xq', end_comment_id='none')
+    transcriber.transcribe(start_comment_id='dc2g3xq', end_comment_id='none')
+    transcriber.transcribe(start_comment_id='dc20nhd', end_comment_id='all')
 

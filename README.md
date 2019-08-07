@@ -1,5 +1,5 @@
 # Reddit Comment Transcriber
-A program that converts a thread of Reddit comments to a rich text file. 
+A program that converts a thread of Reddit comments to a rich text file (.rtf). 
 
 The following files contain code written exclusively by me:
 - main.py

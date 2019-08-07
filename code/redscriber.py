@@ -43,14 +43,14 @@ class RedditCommentTranscriber:
         save_file.write('}')
         save_file.close()
 
-    def _print_single_comment(self, save_file, comment):  # todo: insert new line breaks when line overflows, fix bug where user is deleted but comment still exists
+    def _print_single_comment(self, save_file, comment):  # todo: fix bug where user is deleted but comment still exists
         save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "https://www.reddit.com' + comment.permalink)
         save_file.write(r'"}}{\fldrslt https://www.reddit.com' + comment.permalink + '}}\\\n')
         save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
         save_file.write('\\\n')
         comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/' + comment.author.name
         comment_author_header += r'/"}}{\fldrslt ' + comment.author.name + '}}'
-        save_file.write('\\pard \\fs22 \\cf3 ' + comment_author_header + '  ' + str(comment.score) + ' points  ' +  # todo: don't like the way bolding looks in the titles, fix later
+        save_file.write('\\pard \\fs22 \\cf3 ' + comment_author_header + '  ' + str(comment.score) + ' points  ' +
                         str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  #' + comment.id +
                         '\\fs24 \\cf0 \\\n')
 
@@ -59,7 +59,7 @@ class RedditCommentTranscriber:
 
         save_file.write('\\\n')
 
-    def _print_comment_tree(self, save_file, root_comment, level):  # todo: insert new line breaks when line overflows
+    def _print_comment_tree(self, save_file, root_comment, level):
         if level == 0:
             save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "https://www.reddit.com' + root_comment.permalink)
             save_file.write(r'"}}{\fldrslt https://www.reddit.com' + root_comment.permalink + '}}\\\n')
@@ -86,7 +86,7 @@ class RedditCommentTranscriber:
     # Recursive depth-first search from the start comment to find the end comment
     # If end comment is found, adds the chain to the comment_stack and finally prints the comment_stack.
     # Returns True if end_comment is found in root_comment's descendants, False if it has not been found.
-    def _print_comment_chain(self, save_file, root_comment, end_comment_id, level, comment_stack):  # todo: insert new line breaks when line overflows
+    def _print_comment_chain(self, save_file, root_comment, end_comment_id, level, comment_stack):
         # Base case: root_comment is the end comment
         if root_comment.id == end_comment_id:
             comment_stack.append(root_comment)

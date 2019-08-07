@@ -63,7 +63,7 @@ class RedditCommentTranscriber:
                         '\\fs24 \\cf0 \\\n')
 
         # Write the comment body
-        current_body = self.string_cleaner(snoomark.comrak.to_html(comment.body).decode("utf-8"))
+        current_body = self.string_cleaner(snoomark.comrak.to_html(self.string_pre_cleaner(comment.body)).decode("utf-8"))
         save_file.write(current_body)
 
         save_file.write('\\\n')
@@ -93,7 +93,7 @@ class RedditCommentTranscriber:
                             comment_permalink_header + '\\fs24 \\cf0 \\\n')
 
             # Write the comment body
-            current_body = self.string_cleaner(snoomark.comrak.to_html(root_comment.body).decode("utf-8"))
+            current_body = self.string_cleaner(snoomark.comrak.to_html(self.string_pre_cleaner(root_comment.body)).decode("utf-8"))
             save_file.write(current_body)
 
         except AttributeError:
@@ -166,7 +166,7 @@ class RedditCommentTranscriber:
                                 comment_permalink_header + '\\fs24 \\cf0 \\\n')
 
                 # Write the comment body
-                current_body = self.string_cleaner(snoomark.comrak.to_html(current.body).decode("utf-8"))
+                current_body = self.string_cleaner(snoomark.comrak.to_html(self.string_pre_cleaner(current.body)).decode("utf-8"))
                 save_file.write(current_body)
 
             except AttributeError:
@@ -184,6 +184,14 @@ class RedditCommentTranscriber:
         indent_string = '\\pard\\li' + str(140*level) + '\\fi0\\pardirnatural\\partightenfactor0\n'
 
         return indent_string
+
+    @staticmethod
+    def string_pre_cleaner(comment_text):
+        comment_text = comment_text.replace('—', r"\\'97")
+        comment_text = comment_text.replace('’', r"\\'92")
+        comment_text = comment_text.replace('“', r"\\'93")
+        comment_text = comment_text.replace('”', r"\\'94")
+        return comment_text.replace('‘', r"\\'91")
 
     @staticmethod
     def string_cleaner(comment_text):

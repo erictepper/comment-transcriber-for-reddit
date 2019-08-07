@@ -85,9 +85,12 @@ class RedditCommentTranscriber:
             # Write the comment info line
             comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/'
             comment_author_header += root_comment.author.name + r'/"}}{\fldrslt ' + root_comment.author.name + '}}'
+            comment_permalink = submission_link + root_comment.id + '/'
+            comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
+            comment_permalink_header += r'"}}{\fldrslt #' + root_comment.id + '}}'
             save_file.write(indent_string + '\\fs22 \\cf3 ' + comment_author_header + '  ' + str(root_comment.score) +
-                            ' points  ' + str(datetime.datetime.fromtimestamp(root_comment.created_utc)) + '  #' +
-                            root_comment.id + '\\fs24 \\cf0 \\\n')
+                            ' points  ' + str(datetime.datetime.fromtimestamp(root_comment.created_utc)) + '  ' +
+                            comment_permalink_header + '\\fs24 \\cf0 \\\n')
 
             # Write the comment body
             current_body = self.string_cleaner(snoomark.comrak.to_html(root_comment.body).decode("utf-8"))
@@ -95,7 +98,10 @@ class RedditCommentTranscriber:
 
         except AttributeError:
             # If the comment does not exist, write the comment as deleted/removed.
-            save_file.write(indent_string + '\\fs22 \\cf3 deleted/removed  #' + root_comment.id +
+            comment_permalink = submission_link + root_comment.id + '/'
+            comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
+            comment_permalink_header += r'"}}{\fldrslt #' + root_comment.id + '}}'
+            save_file.write(indent_string + '\\fs22 \\cf3 deleted/removed  ' + comment_permalink_header +
                             '\\fs24 \\cf0 \\\n\\\n')
 
         # Recursively write the comment replies
@@ -152,9 +158,12 @@ class RedditCommentTranscriber:
                 # Write the comment info line
                 comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/'
                 comment_author_header += current.author.name + r'/"}}{\fldrslt ' + current.author.name + '}}'
+                comment_permalink = submission_link + current.id + '/'
+                comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
+                comment_permalink_header += r'"}}{\fldrslt #' + current.id + '}}'
                 save_file.write(indent_string + '\\fs22 \\cf3 ' + comment_author_header + '  ' + str(current.score) +
-                                ' points  ' + str(datetime.datetime.fromtimestamp(current.created_utc)) + '  #' +
-                                current.id + '\\fs24 \\cf0 \\\n')
+                                ' points  ' + str(datetime.datetime.fromtimestamp(current.created_utc)) + '  ' +
+                                comment_permalink_header + '\\fs24 \\cf0 \\\n')
 
                 # Write the comment body
                 current_body = self.string_cleaner(snoomark.comrak.to_html(current.body).decode("utf-8"))
@@ -162,7 +171,10 @@ class RedditCommentTranscriber:
 
             except AttributeError:
                 # If the comment does not exist, write the comment as deleted/removed.
-                save_file.write(indent_string + '\\fs22 \\cf3 deleted/removed  #' + current.id +
+                comment_permalink = submission_link + current.id + '/'
+                comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
+                comment_permalink_header += r'"}}{\fldrslt #' + current.id + '}}'
+                save_file.write(indent_string + '\\fs22 \\cf3 deleted/removed  ' + comment_permalink_header +
                                 '\\fs24 \\cf0 \\\n\\\n')
 
         return True

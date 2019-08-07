@@ -15,8 +15,7 @@ output/ contains the output .rtf files of the test cases I have written.
 
 #### To-do
 1. Fix bug where program fails where user has been deleted, but comment still exists.
-2. Format comment id numbers to be links to the comment.
-3. Create function that handles unordered/ordered list html parsing.
+2. Create function that handles unordered/ordered list html parsing.
 
 #### Credits
 

@@ -53,21 +53,33 @@ class RedditCommentTranscriber:
         save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
         save_file.write('\\\n')
 
-        # Write the comment info line
-        # author link
-        comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/' + comment.author.name
-        comment_author_header += r'/"}}{\fldrslt ' + comment.author.name + '}}'
-        # comment permalink
-        comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
-        comment_permalink_header += r'"}}{\fldrslt #' + comment.id + '}}'
-        # write info line
-        save_file.write('\\pard \\fs22 \\cf3 ' + comment_author_header + '  ' + str(comment.score) + ' points  ' +
-                        str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  ' + comment_permalink_header +
-                        '\\fs24 \\cf0 \\\n')
+        try:
+            # Write the comment info line
+            # author link
+            try:
+                comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/' + comment.author.name
+                comment_author_header += r'/"}}{\fldrslt ' + comment.author.name + '}}'
+            except AttributeError:
+                comment_author_header = '[deleted]'
+            # comment permalink
+            comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
+            comment_permalink_header += r'"}}{\fldrslt #' + comment.id + '}}'
+            # write info line
+            save_file.write('\\pard \\fs22 \\cf3 ' + comment_author_header + '  ' + str(comment.score) + ' points  ' +
+                            str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  ' + comment_permalink_header +
+                            '\\fs24 \\cf0 \\\n')
 
-        # Write the comment body
-        current_body = self.string_cleaner(snoomark.comrak.to_html(self.string_pre_cleaner(comment.body)).decode("utf-8"))
-        save_file.write(current_body)
+            # Write the comment body
+            current_body = self.string_cleaner(snoomark.comrak.to_html(self.string_pre_cleaner(comment.body)).decode("utf-8"))
+            save_file.write(current_body)
+
+        except AttributeError:
+            # If the comment does not exist, write the comment as deleted/removed.
+            comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
+            comment_permalink_header += r'"}}{\fldrslt #' + comment.id + '}}'
+            save_file.write('\\pard \\fs22 \\cf3 deleted/removed  ' + comment_permalink_header +
+                            '\\fs24 \\cf0 \\\n\\\n')
+
 
         save_file.write('\\\n')
 
@@ -87,8 +99,11 @@ class RedditCommentTranscriber:
         try:
             # Write the comment info line
             # author link
-            comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/'
-            comment_author_header += root_comment.author.name + r'/"}}{\fldrslt ' + root_comment.author.name + '}}'
+            try:
+                comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/'
+                comment_author_header += root_comment.author.name + r'/"}}{\fldrslt ' + root_comment.author.name + '}}'
+            except AttributeError:
+                comment_author_header = '[deleted]'
             # comment permalink
             comment_permalink = submission_link + root_comment.id + '/'
             comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
@@ -163,8 +178,11 @@ class RedditCommentTranscriber:
             try:
                 # Write the comment info line
                 # author link
-                comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/'
-                comment_author_header += current.author.name + r'/"}}{\fldrslt ' + current.author.name + '}}'
+                try:
+                    comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/'
+                    comment_author_header += current.author.name + r'/"}}{\fldrslt ' + current.author.name + '}}'
+                except AttributeError:
+                    comment_author_header = '[deleted]'
                 # comment permalink
                 comment_permalink = submission_link + current.id + '/'
                 comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink

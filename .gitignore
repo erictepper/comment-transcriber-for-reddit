@@ -44,3 +44,12 @@ code/pulldown-cmark/specs/
 code/pulldown-cmark/tests/
 code/pulldown-cmark/third_party/
 code/pulldown-cmark/tools/
+code/pulldown-cmark/src/entities.rs
+code/pulldown-cmark/src/escape.rs
+code/pulldown-cmark/src/html.rs
+code/pulldown-cmark/src/lib.rs
+code/pulldown-cmark/src/parse.rs
+code/pulldown-cmark/src/passes.rs
+code/pulldown-cmark/src/puncttable.rs
+code/pulldown-cmark/src/scanners.rs
+code/pulldown-cmark/src/utils.rs

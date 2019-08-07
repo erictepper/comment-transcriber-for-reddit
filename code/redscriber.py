@@ -54,10 +54,13 @@ class RedditCommentTranscriber:
         save_file.write('\\\n')
 
         # Write the comment info line
+        # author link
         comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/' + comment.author.name
         comment_author_header += r'/"}}{\fldrslt ' + comment.author.name + '}}'
+        # comment permalink
         comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
         comment_permalink_header += r'"}}{\fldrslt #' + comment.id + '}}'
+        # write info line
         save_file.write('\\pard \\fs22 \\cf3 ' + comment_author_header + '  ' + str(comment.score) + ' points  ' +
                         str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  ' + comment_permalink_header +
                         '\\fs24 \\cf0 \\\n')
@@ -83,11 +86,14 @@ class RedditCommentTranscriber:
 
         try:
             # Write the comment info line
+            # author link
             comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/'
             comment_author_header += root_comment.author.name + r'/"}}{\fldrslt ' + root_comment.author.name + '}}'
+            # comment permalink
             comment_permalink = submission_link + root_comment.id + '/'
             comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
             comment_permalink_header += r'"}}{\fldrslt #' + root_comment.id + '}}'
+            # write info line
             save_file.write(indent_string + '\\fs22 \\cf3 ' + comment_author_header + '  ' + str(root_comment.score) +
                             ' points  ' + str(datetime.datetime.fromtimestamp(root_comment.created_utc)) + '  ' +
                             comment_permalink_header + '\\fs24 \\cf0 \\\n')
@@ -156,11 +162,14 @@ class RedditCommentTranscriber:
 
             try:
                 # Write the comment info line
+                # author link
                 comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/'
                 comment_author_header += current.author.name + r'/"}}{\fldrslt ' + current.author.name + '}}'
+                # comment permalink
                 comment_permalink = submission_link + current.id + '/'
                 comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
                 comment_permalink_header += r'"}}{\fldrslt #' + current.id + '}}'
+                # write info line
                 save_file.write(indent_string + '\\fs22 \\cf3 ' + comment_author_header + '  ' + str(current.score) +
                                 ' points  ' + str(datetime.datetime.fromtimestamp(current.created_utc)) + '  ' +
                                 comment_permalink_header + '\\fs24 \\cf0 \\\n')

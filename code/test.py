@@ -21,7 +21,7 @@ if __name__ == '__main__':
 
     # Comment chain transcription
     transcriber.transcribe(start_comment_id='eqs3wsz', end_comment_id='eqxjjs8')
-    # transcriber.transcribe(start_comment_id='edfm15w', end_comment_id='edfme0h')
+    transcriber.transcribe(start_comment_id='edfm15w', end_comment_id='edfme0h')
     transcriber.transcribe(start_comment_id='eulkvbp', end_comment_id='eun0q9h')
 
     # Emoji transcription

@@ -19,6 +19,9 @@ if __name__ == '__main__':
     # Comment tree transcription
     transcriber.transcribe(start_comment_id='eudig5e', end_comment_id='all')
 
+    # Giant comment tree transcription
+    transcriber.transcribe(start_comment_id='edfm15w', end_comment_id='all')
+
     # Comment chain transcription
     transcriber.transcribe(start_comment_id='eqs3wsz', end_comment_id='eqxjjs8')
     transcriber.transcribe(start_comment_id='edfm15w', end_comment_id='edfme0h')

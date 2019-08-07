@@ -24,6 +24,17 @@ code/comrak/rustfmt.toml
 code/comrak/script/
 code/comrak/spec_out.txt
 code/comrak/vendor/
+code/comrak/src/tests.rs
+code/comrak/src/strings.rs
+code/comrak/src/scanners.rs
+code/comrak/src/parser/
+code/comrak/src/nodes.rs
+code/comrak/src/main.rs
+code/comrak/src/lib.rs
+code/comrak/src/entity.rs
+code/comrak/src/ctype.rs
+code/comrak/src/cm.rs
+code/comrak/src/arena_tree.rs
 
 # pulldown-cmark
 code/pulldown-cmark/target/

@@ -56,8 +56,10 @@ class RedditCommentTranscriber:
         # Write the comment info line
         comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/' + comment.author.name
         comment_author_header += r'/"}}{\fldrslt ' + comment.author.name + '}}'
+        comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
+        comment_permalink_header += r'"}}{\fldrslt #' + comment.id + '}}'
         save_file.write('\\pard \\fs22 \\cf3 ' + comment_author_header + '  ' + str(comment.score) + ' points  ' +
-                        str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  #' + comment.id +
+                        str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  ' + comment_permalink_header +
                         '\\fs24 \\cf0 \\\n')
 
         # Write the comment body
@@ -130,7 +132,7 @@ class RedditCommentTranscriber:
         # We will only reach this code if we are at the starting comment, the end-comment has been found, and
         # comment_stack contains the entire chain of comments with the starting comment on top and the ending
         # comment on bottom.
-        # This code writes every comment on the comment_stack to the save file. 
+        # This code writes every comment on the comment_stack to the save file.
         submission_link = 'https://www.reddit.com' + root_comment.submission.permalink
         while comment_stack:
             current = comment_stack.pop()

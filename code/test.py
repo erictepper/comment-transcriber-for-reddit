@@ -21,7 +21,7 @@ if __name__ == '__main__':
 
     # Giant comment tree transcription
     transcriber.transcribe(start_comment_id='edfm15w', end_comment_id='all')
-##    transcriber.transcribe(start_comment_id='edge98h', end_comment_id='none')
+    # transcriber.transcribe(start_comment_id='edge98h', end_comment_id='none') - parser has problems with apostrophe
 
     # Comment chain transcription
     transcriber.transcribe(start_comment_id='eqs3wsz', end_comment_id='eqxjjs8')

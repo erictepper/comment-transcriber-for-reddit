@@ -44,8 +44,10 @@ class RedditCommentTranscriber:
         save_file.close()
 
     def _print_single_comment(self, save_file, comment):  # todo: fix bug where user is deleted but comment still exists
-        save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "https://www.reddit.com' + comment.permalink)
-        save_file.write(r'"}}{\fldrslt https://www.reddit.com' + comment.permalink + '}}\\\n')
+        submission_link = 'https://www.reddit.com' + comment.submission.permalink
+        comment_permalink = submission_link + comment.id + '/'
+        save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "' + comment_permalink)
+        save_file.write(r'"}}{\fldrslt ' + comment_permalink + '}}\\\n')
         save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
         save_file.write('\\\n')
         comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/' + comment.author.name
@@ -53,16 +55,17 @@ class RedditCommentTranscriber:
         save_file.write('\\pard \\fs22 \\cf3 ' + comment_author_header + '  ' + str(comment.score) + ' points  ' +
                         str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  #' + comment.id +
                         '\\fs24 \\cf0 \\\n')
-
         current_body = self.string_cleaner(snoomark.comrak.to_html(comment.body).decode("utf-8"))
         save_file.write(current_body)
 
         save_file.write('\\\n')
 
     def _print_comment_tree(self, save_file, root_comment, level):
+        submission_link = 'https://www.reddit.com' + root_comment.submission.permalink
         if level == 0:
-            save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "https://www.reddit.com' + root_comment.permalink)
-            save_file.write(r'"}}{\fldrslt https://www.reddit.com' + root_comment.permalink + '}}\\\n')
+            comment_permalink = submission_link + root_comment.id + '/'
+            save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "' + comment_permalink)
+            save_file.write(r'"}}{\fldrslt ' + comment_permalink + '}}\\\n')
             save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
             save_file.write('\\\n')
 
@@ -114,11 +117,13 @@ class RedditCommentTranscriber:
         # comment_stack contains the entire chain of comments with the starting comment on top and the ending
         # comment on bottom.
         # This code prints every comment on the comment_stack.
+        submission_link = 'https://www.reddit.com' + root_comment.submission.permalink
         while comment_stack:
             current = comment_stack.pop()
             if level == 0:
-                save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "https://www.reddit.com' + current.permalink)
-                save_file.write(r'"}}{\fldrslt https://www.reddit.com' + current.permalink + '}}\\\n')
+                comment_permalink = submission_link + root_comment.id + '/'
+                save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "' + comment_permalink)
+                save_file.write(r'"}}{\fldrslt ' + comment_permalink + '}}\\\n')
                 save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
                 save_file.write('\\\n')
 

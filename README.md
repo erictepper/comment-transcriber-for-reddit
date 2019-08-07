@@ -17,6 +17,7 @@ output/ contains the output .rtf files of the test cases I have written.
 1. Fix bug where program fails where user has been deleted, but comment still exists.
 2. Create function that handles unordered/ordered list html parsing.
 3. Add support for emojis. 
+4. Add support for username links (i.e. /u/username)
 
 #### Credits
 

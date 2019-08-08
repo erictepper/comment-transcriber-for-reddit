@@ -35,5 +35,5 @@ markdown as I ran into errors using pulldown-cmark.
 1. Modifications are marked with the comment 'edited by erictepper'
 2. Changed the output of the parser from .html syntax to .rtf syntax
 3. Added comments for debugging.
-4. Added an empty main() function so the project would build. <!---Not included in the repository, as the changes were unsubstantial and therefore not worth including in my repository.--->
+4. Added an empty main() function so the project would build. <!-- Not included in the repository, as the changes were unsubstantial and therefore not worth including in my repository. -->
 5. Modified code to support the parsing of Reddit-specific links. 

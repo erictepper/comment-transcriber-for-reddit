@@ -27,7 +27,9 @@ code/comrak/vendor/
 code/comrak/src/tests.rs
 code/comrak/src/strings.rs
 code/comrak/src/scanners.rs
-code/comrak/src/parser/
+code/comrak/src/parser/table.rs
+code/comrak/src/parser/mod.rs
+code/comrak/src/parser/inlines.rs
 code/comrak/src/nodes.rs
 code/comrak/src/main.rs
 code/comrak/src/lib.rs

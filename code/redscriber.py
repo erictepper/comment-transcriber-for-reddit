@@ -34,16 +34,16 @@ class RedditCommentTranscriber:
                         r'{\*\expandedcolortbl;;\cssrgb\c39975\c61335\c20601;\cssrgb\c57046\c57047\c57046;}' + '\n')
 
         if end_comment_id == 'none' or start_comment_id == end_comment_id:
-            self._print_single_comment(save_file, start_comment)
+            self._write_single_comment(save_file, start_comment)
         elif end_comment_id == 'all':
-            self._print_comment_tree(save_file, start_comment, 0)
+            self._write_comment_tree(save_file, start_comment, 0)
         else:
-            self._print_comment_chain(save_file, start_comment, end_comment_id, 0, list())
+            self._write_comment_chain(save_file, start_comment, end_comment_id, 0, list())
 
         save_file.write('}')
         save_file.close()
 
-    def _print_single_comment(self, save_file, comment):  # todo: fix bug where user is deleted but comment still exists
+    def _write_single_comment(self, save_file, comment):  # todo: fix bug where user is deleted but comment still exists
         submission_link = 'https://www.reddit.com' + comment.submission.permalink
 
         # Write the file header
@@ -74,7 +74,7 @@ class RedditCommentTranscriber:
 
         save_file.write('\\\n')
 
-    def _print_comment_tree(self, save_file, root_comment, level):
+    def _write_comment_tree(self, save_file, root_comment, level):
         submission_link = 'https://www.reddit.com' + root_comment.submission.permalink
 
         # Write the file header
@@ -109,12 +109,12 @@ class RedditCommentTranscriber:
 
         # Recursively write the comment replies
         for reply in root_comment.replies:
-            self._print_comment_tree(save_file, reply, level + 1)
+            self._write_comment_tree(save_file, reply, level + 1)
 
     # Recursive depth-first search from the start comment to find the end comment
     # If end comment is found, adds the chain to the comment_stack and finally prints the comment_stack.
     # Returns True if end_comment is found in root_comment's descendants, False if it has not been found.
-    def _print_comment_chain(self, save_file, root_comment, end_comment_id, level, comment_stack):
+    def _write_comment_chain(self, save_file, root_comment, end_comment_id, level, comment_stack):
         # Base case: root_comment is the end comment
         if root_comment.id == end_comment_id:
             comment_stack.append(root_comment)
@@ -124,7 +124,7 @@ class RedditCommentTranscriber:
         # is also an ancestor and therefore part of the chain, so add it to the comment stack
         found = False
         for reply in root_comment.replies:
-            if self._print_comment_chain(save_file, reply, end_comment_id, level+1, comment_stack):
+            if self._write_comment_chain(save_file, reply, end_comment_id, level + 1, comment_stack):
                 comment_stack.append(root_comment)
                 found = True
                 if level != 0:

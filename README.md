@@ -35,5 +35,5 @@ markdown as I ran into errors using pulldown-cmark.
 
 1. Modifications are marked with the comment 'edited by erictepper'
 2. Changed the output of the parser from .html syntax to .rtf syntax
-3. Comments have been added for debugging. 
+3. Added comments for debugging.
 4. Added a main() function so the project would build. 

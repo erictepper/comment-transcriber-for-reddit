@@ -179,6 +179,9 @@ class RedditCommentTranscriber:
 
         return True
 
+    def _write_comment(self, save_file, comment, level):
+        return  # stub
+
     @staticmethod
     def _indent_level(level):
         indent_string = '\\pard\\li' + str(140*level) + '\\fi0\\pardirnatural\\partightenfactor0\n'

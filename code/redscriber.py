@@ -43,69 +43,13 @@ class RedditCommentTranscriber:
         save_file.write('}')
         save_file.close()
 
-    def _write_single_comment(self, save_file, comment):  # todo: fix bug where user is deleted but comment still exists
+    def _write_single_comment(self, save_file, comment):
         submission_link = 'https://www.reddit.com' + comment.submission.permalink
-
-        # Write the file header
-        comment_permalink = submission_link + comment.id + '/'
-        save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "' + comment_permalink)
-        save_file.write(r'"}}{\fldrslt ' + comment_permalink + '}}\\\n')
-        save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
-        save_file.write('\\\n')
-
-        # Write the comment info line
-        # author link
-        try:
-            comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/' + comment.author.name
-            comment_author_header += r'/"}}{\fldrslt ' + comment.author.name + '}}'
-        except AttributeError:
-            comment_author_header = '[deleted]'
-        # comment permalink
-        comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
-        comment_permalink_header += r'"}}{\fldrslt #' + comment.id + '}}'
-        # write info line
-        save_file.write('\\pard \\fs22 \\cf3 ' + comment_author_header + '  ' + str(comment.score) + ' points  ' +
-                        str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  ' + comment_permalink_header +
-                        '\\fs24 \\cf0 \\\n')
-
-        # Write the comment body
-        current_body = self.string_cleaner(snoomark.comrak.to_html(self.string_pre_cleaner(comment.body)).decode("utf-8"))
-        save_file.write(current_body)
-
-        save_file.write('\\\n')
+        self._write_comment(save_file=save_file, comment=comment, submission_link=submission_link, level=0)
 
     def _write_comment_tree(self, save_file, root_comment, level):
         submission_link = 'https://www.reddit.com' + root_comment.submission.permalink
-
-        # Write the file header
-        if level == 0:
-            comment_permalink = submission_link + root_comment.id + '/'
-            save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "' + comment_permalink)
-            save_file.write(r'"}}{\fldrslt ' + comment_permalink + '}}\\\n')
-            save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
-            save_file.write('\\\n')
-
-        indent_string = self._indent_level(level)
-
-        # Write the comment info line
-        # author link
-        try:
-            comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/'
-            comment_author_header += root_comment.author.name + r'/"}}{\fldrslt ' + root_comment.author.name + '}}'
-        except AttributeError:
-            comment_author_header = '[deleted]'
-        # comment permalink
-        comment_permalink = submission_link + root_comment.id + '/'
-        comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
-        comment_permalink_header += r'"}}{\fldrslt #' + root_comment.id + '}}'
-        # write info line
-        save_file.write(indent_string + '\\fs22 \\cf3 ' + comment_author_header + '  ' + str(root_comment.score) +
-                        ' points  ' + str(datetime.datetime.fromtimestamp(root_comment.created_utc)) + '  ' +
-                        comment_permalink_header + '\\fs24 \\cf0 \\\n')
-
-        # Write the comment body
-        current_body = self.string_cleaner(snoomark.comrak.to_html(self.string_pre_cleaner(root_comment.body)).decode("utf-8"))
-        save_file.write(current_body)
+        self._write_comment(save_file=save_file, comment=root_comment, submission_link=submission_link, level=level)
 
         # Recursively write the comment replies
         for reply in root_comment.replies:
@@ -145,42 +89,41 @@ class RedditCommentTranscriber:
         submission_link = 'https://www.reddit.com' + root_comment.submission.permalink
         while comment_stack:
             current = comment_stack.pop()
-
-            # Write the file header
-            if level == 0:
-                comment_permalink = submission_link + root_comment.id + '/'
-                save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "' + comment_permalink)
-                save_file.write(r'"}}{\fldrslt ' + comment_permalink + '}}\\\n')
-                save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
-                save_file.write('\\\n')
-
-            indent_string = self._indent_level(level)
+            self._write_comment(save_file=save_file, comment=current, submission_link=submission_link, level=level)
             level += 1
-
-            # Write the comment info line
-            # author link
-            try:
-                comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/'
-                comment_author_header += current.author.name + r'/"}}{\fldrslt ' + current.author.name + '}}'
-            except AttributeError:
-                comment_author_header = '[deleted]'
-            # comment permalink
-            comment_permalink = submission_link + current.id + '/'
-            comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
-            comment_permalink_header += r'"}}{\fldrslt #' + current.id + '}}'
-            # write info line
-            save_file.write(indent_string + '\\fs22 \\cf3 ' + comment_author_header + '  ' + str(current.score) +
-                            ' points  ' + str(datetime.datetime.fromtimestamp(current.created_utc)) + '  ' +
-                            comment_permalink_header + '\\fs24 \\cf0 \\\n')
-
-            # Write the comment body
-            current_body = self.string_cleaner(snoomark.comrak.to_html(self.string_pre_cleaner(current.body)).decode("utf-8"))
-            save_file.write(current_body)
 
         return True
 
-    def _write_comment(self, save_file, comment, level):
-        return  # stub
+    def _write_comment(self, save_file, comment, submission_link, level):
+        comment_permalink = submission_link + comment.id + '/'
+
+        # Write the file header
+        if level == 0:
+            save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "' + comment_permalink)
+            save_file.write(r'"}}{\fldrslt ' + comment_permalink + '}}\\\n')
+            save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
+            save_file.write('\\\n')
+
+        indent_string = self._indent_level(level)
+
+        # Write the comment info line
+        # author link
+        try:
+            comment_author_header = r'{\field{\*\fldinst{HYPERLINK "https://www.reddit.com/user/'
+            comment_author_header += comment.author.name + r'/"}}{\fldrslt ' + comment.author.name + '}}'
+        except AttributeError:
+            comment_author_header = '[deleted]'
+        # comment permalink
+        comment_permalink_header = r'{\field{\*\fldinst{HYPERLINK "' + comment_permalink
+        comment_permalink_header += r'"}}{\fldrslt #' + comment.id + '}}'
+        # write info line
+        save_file.write(indent_string + '\\fs22 \\cf3 ' + comment_author_header + '  ' + str(comment.score) +
+                        ' points  ' + str(datetime.datetime.fromtimestamp(comment.created_utc)) + '  ' +
+                        comment_permalink_header + '\\fs24 \\cf0 \\\n')
+
+        # Write the comment body
+        current_body = self.string_cleaner(snoomark.comrak.to_html(self.string_pre_cleaner(comment.body)).decode("utf-8"))
+        save_file.write(current_body)
 
     @staticmethod
     def _indent_level(level):

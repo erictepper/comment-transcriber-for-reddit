@@ -367,8 +367,12 @@ pub fn process_redditlinks<'a>(
     }
 
     let mut with_preceding_slash;
+    let mut without_preceding_slash; // edited by erictepper
     let full_redditlink = match redditlink.as_bytes()[0] {
-        b'/' => format!("https://www.reddit.com{}", redditlink).to_owned(), // edited by erictepper
+        b'/' => { // edited by erictepper
+            without_preceding_slash = format!("https://www.reddit.com{}", redditlink).to_owned() // edited by erictepper
+            &without_preceding_slash // edited by erictepper
+        }, // edited by erictepper
         _ => {
             with_preceding_slash = format!("https://www.reddit.com/{}", redditlink).to_owned(); // edited by erictepper
             &with_preceding_slash

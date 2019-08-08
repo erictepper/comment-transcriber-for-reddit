@@ -353,9 +353,9 @@ impl<'o> HtmlFormatter<'o> {
             }
             NodeValue::Strikethrough => {
                 if entering {
-                    self.s += "<del>";
+                    self.s += "\\strike "; // edited by erictepper
                 } else {
-                    self.s += "</del>";
+                    self.s += "\\strike0 "; // edited by erictepper
                 }
             }
             NodeValue::Superscript => {

@@ -12,6 +12,7 @@ The following files contain code written by others with modifications by me<sup>
 - code/comrak/src/lib.rs<sup>3</sup>
 - code/pulldown-cmark/src/main.rs<sup>4</sup>
 - code/comrak/src/parser/autolink.rs<sup>5</sup>
+- code/comrak/src/parser/mod.rs<sup>6</sup>
 
 output/ contains the output .rtf files of the test cases I have written. 
 
@@ -36,4 +37,5 @@ markdown as I ran into errors using pulldown-cmark.
 2. Changed the output of the parser from .html syntax to .rtf syntax
 3. Added comments for debugging.
 4. Added an empty main() function so the project would build. <!-- Not included in the repository, as the changes were unsubstantial and therefore not worth including in my repository. -->
-5. Modified code to support the parsing of Reddit-specific links. 
+5. Modified code to support the parsing of Reddit-specific links.
+6. Added comments to clarify what the code is doing.  

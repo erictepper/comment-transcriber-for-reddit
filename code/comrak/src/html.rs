@@ -370,8 +370,8 @@ impl<'o> HtmlFormatter<'o> {
                     self.s += r#"{\field{\*\fldinst{HYPERLINK ""#; // edited by erictepper
                     self.escape_href(&nl.url);
                     if !nl.title.is_empty() {
-                        self.s += "\" title=\"";
-                        self.escape(&nl.title);
+                        // self.s += "\" title=\""; edited by erictepper
+                        // self.escape(&nl.title); edited by erictepper
                     }
                     self.s += r#""}}{\fldrslt "#; // edited by erictepper
                 } else {

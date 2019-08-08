@@ -36,5 +36,10 @@ if __name__ == '__main__':
 
     # Deleted account transcription
     transcriber.transcribe(start_comment_id='dc2g3xq', end_comment_id='none')
+
+    # Reddit user link & deleted account transcription
     transcriber.transcribe(start_comment_id='dc20nhd', end_comment_id='all')
+
+    # Subreddit link transcription
+    transcriber.transcribe(start_comment_id='eow0ei7', end_comment_id='none')
 

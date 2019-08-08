@@ -9,7 +9,8 @@ The following files contain code written exclusively by me:
 
 The following files contain code written by others with modifications by me<sup>1</sup>:
 - code/comrak/src/html.rs<sup>2</sup>
-- code/pulldown-cmark/src/main.rs<sup>3</sup>
+- code/comrak/src/lib.rs<sup>3</sup>
+- code/pulldown-cmark/src/main.rs<sup>4</sup>
 
 output/ contains the output .rtf files of the test cases I have written. 
 
@@ -34,4 +35,5 @@ markdown as I ran into errors using pulldown-cmark.
 
 1. Modifications are marked with the comment 'edited by erictepper'
 2. Changed the output of the parser from .html syntax to .rtf syntax
-3. Added a main() function so the project would build. 
+3. Comments have been added for debugging. 
+4. Added a main() function so the project would build. 

@@ -21,5 +21,5 @@ class comrak:
 
     @staticmethod
     def to_html(cmark):
-        pntr = crak.html(cmark.encode('utf-8'))
+        pntr = crak.html(cmark.encode('utf-8'))  # edited by erictepper: references comrak/src/lib.rs::122
         return cast(pntr, c_char_p).value

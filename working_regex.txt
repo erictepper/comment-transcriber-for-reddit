@@ -1,11 +1,11 @@
 Capturing superscript:
-(\^)((?:\[.+\]\(.+\))|(?:\(.+\))|(?:.+?))(?= |\n|$)
+(\^)((?:\^*)(?:(?:\[.+\]\(.+\))|(?:\(.+\))|(?:.+?)))(?= |\n|$)
 
 (\^) - group 1
-((?:\[.+\]\(.+\))|(?:\(.+\))|(?:.+?))(?= |\n|$) - group 2
+((?:\^*)(?:(?:\[.+\]\(.+\))|(?:\(.+\))|(?:.+?)))(?= |\n|$) - group 2
 
 group 1: new line, space, or carat before start of expression
-group 2: expression takes the form "text " or "(text text text)" or "[text](link)"
+group 2: expression takes the form "text " or "(text text text)" or "[text](link)" (optionally beginning with as many asterisks as needed)
 
 
 Capturing bold/italics (no longer necessary):

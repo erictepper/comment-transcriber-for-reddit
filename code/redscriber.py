@@ -33,6 +33,12 @@ class RedditCommentTranscriber:
                         r'\red127\green127\blue127;}' + '\n' +
                         r'{\*\expandedcolortbl;;\cssrgb\c39975\c61335\c20601;\cssrgb\c57046\c57047\c57046;}' + '\n')
 
+        if start_comment_id == 'edfm15w':  # testing
+            file_path_2 = os.path.join('..', 'output', 'superscript_comment.txt')  # testing
+            save_file_2 = open(file_path_2, 'w')  # testing
+            save_file_2.write(start_comment.body)  # testing
+            save_file_2.close()  # testing
+
         if end_comment_id == 'none' or start_comment_id == end_comment_id:
             self._write_single_comment(save_file, start_comment)
         elif end_comment_id == 'all':
@@ -58,7 +64,7 @@ class RedditCommentTranscriber:
     # Recursive depth-first search from the start comment to find the end comment
     # If end comment is found, adds the chain to the comment_stack and finally prints the comment_stack.
     # Returns True if end_comment is found in root_comment's descendants, False if it has not been found.
-    def _write_comment_chain(self, save_file, root_comment, end_comment_id, level, comment_stack):
+    def _write_comment_chain(self, save_file, root_comment, end_comment_id, level, comment_stack):  # todo: change from DFS implementation to bottom-up transcription for speed
         # Base case: root_comment is the end comment
         if root_comment.id == end_comment_id:
             comment_stack.append(root_comment)

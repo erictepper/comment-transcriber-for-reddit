@@ -1,8 +1,8 @@
 Capturing superscript:
-((?:^| |\^)(?:\^))((?:\[.+\]\(.+\))|(?:\(.*\))|(?:.+?)(?= ))
+(\^)((?:\[.+\]\(.+\))|(?:\(.+\))|(?:.+?))(?= |\n|$)
 
-((?:^| |\^)(?:\^)) - group 1
-((?:\[.+\]\(.+\))|(?:\(.*\))|(?:.+?)(?= )) - group 2
+(\^) - group 1
+((?:\[.+\]\(.+\))|(?:\(.+\))|(?:.+?))(?= |\n|$) - group 2
 
 group 1: new line, space, or carat before start of expression
 group 2: expression takes the form "text " or "(text text text)" or "[text](link)"

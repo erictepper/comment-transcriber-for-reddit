@@ -37,7 +37,8 @@ code/comrak/src/entity.rs
 code/comrak/src/ctype.rs
 code/comrak/src/cm.rs
 code/comrak/src/arena_tree.rs
-code/old-comrak-src/
+code/broken-new-comrak.zip
+code/broken-new-comrak/
 
 # pulldown-cmark
 code/pulldown-cmark/target/

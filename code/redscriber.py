@@ -159,7 +159,7 @@ class RedditCommentTranscriber:
 
     @classmethod
     def _format_superscript_for_parser(cls, text):
-        expression = re.search(r'(\^)((?:\[.+\]\(.+\))|(?:\(.+\))|(?:.+?))(?= |\n|$)', text)
+        expression = re.search(r'(\^)((?:\^*)(?:(?:\[.+\]\(.+\))|(?:\(.+\))|(?:.+?)))(?= |\n|$)', text)
         if expression:
             # lalalalala
             group2 = cls._format_superscript_for_parser(expression.group(1))

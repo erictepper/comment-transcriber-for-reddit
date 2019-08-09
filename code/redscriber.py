@@ -34,8 +34,8 @@ class RedditCommentTranscriber:
                         r'\red127\green127\blue127;}' + '\n' +
                         r'{\*\expandedcolortbl;;\cssrgb\c39975\c61335\c20601;\cssrgb\c57046\c57047\c57046;}' + '\n')
 
-        if start_comment_id == 'edfm15w':  # testing
-            file_path_2 = os.path.join('..', 'output', 'superscript_comment.txt')  # testing
+        if start_comment_id == 'edfm15w' or start_comment_id == 'edfme0h':  # testing
+            file_path_2 = os.path.join('..', 'output', start_comment_id + '_superscript_comment.txt')  # testing
             save_file_2 = open(file_path_2, 'w')  # testing
             save_file_2.write(re.sub(r'(\^)((?:\^*)(?:(?:\[.+?\]\(.+?\))|(?:\(.+?\))|(?:.+?)))(?= |\n|$)',
                                      self._format_superscript_for_parser, start_comment.body))  # testing

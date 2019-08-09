@@ -2,6 +2,7 @@ import os
 import praw.exceptions
 import datetime
 import snoomark
+import re
 
 
 class RedditCommentTranscriber:
@@ -155,3 +156,13 @@ class RedditCommentTranscriber:
         comment_text = comment_text.replace('”', r'\'94')
         comment_text = comment_text.replace('&amp;', '&')
         return comment_text.replace('‘', r'\'91')
+
+    @classmethod
+    def _format_superscript_for_parser(cls, text):
+        expression = re.search(r'(\^)((?:\[.+\]\(.+\))|(?:\(.+\))|(?:.+?))(?= |\n|$)', text)
+        if expression:
+            # lalalalala
+            group2 = cls._format_superscript_for_parser(expression.group(1))
+            return '^' + group2 + '^'
+        else:
+            return text

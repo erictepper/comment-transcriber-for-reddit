@@ -37,7 +37,7 @@ class RedditCommentTranscriber:
         if start_comment_id == 'edfm15w' or start_comment_id == 'edfme0h':  # todo: testing
             file_path_2 = os.path.join('..', 'output', start_comment_id + '_superscript_comment.txt')  # todo: testing
             save_file_2 = open(file_path_2, 'w')  # todo: testing
-            save_file_2.write(re.sub(r'(\^)((?:\^*)(?:(?:\[.+?\]\(.+?\))|(?:\(.+?\))|(?:.+?)))(?= |\n|$)',
+            save_file_2.write(re.sub(r'(\^)((?:\^*)(?:(?:\[.+?\]\(.+?\))|(?:\(.+?\))|(?:.+?)))(?= |\n|\*|$)',
                                      self._format_superscript_for_parser, start_comment.body))  # todo: testing
             save_file_2.close()  # todo: testing
 
@@ -130,7 +130,7 @@ class RedditCommentTranscriber:
                         comment_permalink_header + '\\fs24 \\cf0 \\\n')
 
         # Write the comment body
-        comment_body = re.sub(r'(\^)((?:\^*)(?:(?:\[.+?\]\(.+?\))|(?:\(.+?\))|(?:.+?)))(?= |\n|$)',
+        comment_body = re.sub(r'(\^)((?:\^*)(?:(?:\[.+?\]\(.+?\))|(?:\(.+?\))|(?:.+?)))(?= |\n|\*|$)',
                               self._format_superscript_for_parser, comment.body)
         current_body = self.string_cleaner(snoomark.comrak.to_html(self.string_pre_cleaner(comment_body)).decode("utf-8"))
         save_file.write(current_body)
@@ -162,7 +162,7 @@ class RedditCommentTranscriber:
 
     @classmethod
     def _format_superscript_for_parser(cls, text):
-        group2 = re.sub(r'(\^)((?:\^*)(?:(?:\[.+?\]\(.+?\))|(?:\(.+?\))|(?:.+?)))(?= |\n|$)',
+        group2 = re.sub(r'(\^)((?:\^*)(?:(?:\[.+?\]\(.+?\))|(?:\(.+?\))|(?:.+?)))(?= |\n|\*|$)',
                         cls._format_superscript_for_parser, text.group(2))
 
         return '^' + group2 + '^'

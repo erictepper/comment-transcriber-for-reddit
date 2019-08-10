@@ -1,8 +1,9 @@
 import os
-import praw.exceptions
 import datetime
-import snoomark
 import re
+
+import praw.exceptions
+import snoomark
 
 
 class RedditCommentTranscriber:

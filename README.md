@@ -22,6 +22,7 @@ output/ contains the output .rtf files of the test cases I have written.
 3. Change _write_comment_chain from DFS implementation to bottom-up transcription for potential speed increase.
 4. Remove testing code from redscriber.py.
 5. Write version info.
+6. Write privacy policy. 
 
 #### Credits
 

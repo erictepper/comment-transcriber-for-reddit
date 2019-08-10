@@ -101,3 +101,8 @@ To sign up for an OAUTH Client ID, please follow self-serve steps via the link b
 https://www.reddit.com/prefs/apps
 
 You will see a box at the bottom that reads: "are you a developer, create an app." 
+
+
+
+Reddit API Terms of Use
+Thanks for signing up to use the Reddit API.  Please email api@reddit.com if any questions.  

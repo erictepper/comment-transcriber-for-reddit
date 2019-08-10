@@ -1,4 +1,4 @@
-# Reddit Comment Transcriber
+# Comment Transcriber for Reddit
 A program that converts a thread of Reddit comments to a rich text file (.rtf). 
 
 The following files contain code written exclusively by me:

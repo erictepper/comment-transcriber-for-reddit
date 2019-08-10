@@ -19,8 +19,9 @@ output/ contains the output .rtf files of the test cases I have written.
 #### To-do
 1. Create function that handles unordered/ordered list html parsing.
 2. Add support for emojis. 
-3. Change _write_comment_chain from DFS implementation to bottom-up transcription for potential speed.
+3. Change _write_comment_chain from DFS implementation to bottom-up transcription for potential speed increase.
 4. Remove testing code from redscriber.py.
+5. Write version info.
 
 #### Credits
 

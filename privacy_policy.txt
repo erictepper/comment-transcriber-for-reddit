@@ -1,0 +1,10 @@
+Privacy Policy
+
+Information is collected and stored solely from the comments requested in the process of transcription. This information includes:
+ - The usernames of those that made the comments, if available, at the time of transcription. 
+ - The point count of the comments at the time of transcription. 
+ - The dates the comments were made in UTC. 
+ - The comment-ids of the comments. 
+ - The body text of the comment, if available, at the time of transcription.
+
+The above information is saved in the resulting text file and currently is only destroyed manually. In the future, I plan to implement a program to destroy such files after a set period of time, for example one hour. 

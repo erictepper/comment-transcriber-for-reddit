@@ -132,9 +132,9 @@ class RedditCommentTranscriber:
                         comment_permalink_header + '\\fs24 \\cf0 \\\n')
 
         # Write the comment body
-        #comment_body = re.sub(r'(\^)((?:\^*)(?:(?:\[.+?\]\(.+?\))|(?:\(.+?\))|(?:.+?)))(?= |\n|\*|$)',
-        #                      self._format_superscript_for_parser, comment.body)
-        current_body = self.string_cleaner(CMarkGFM.md2html(comment.body))
+        comment_body = re.sub(r'(\^)((?:\^*)(?:(?:\[.+?\]\(.+?\))|(?:\(.+?\))|(?:.+?)))(?= |\n|\*|$)',
+                              self._format_superscript_for_parser, comment.body)
+        current_body = self.string_cleaner(CMarkGFM.md2html(comment_body))
         save_file.write(current_body)
 
     @staticmethod
@@ -167,4 +167,4 @@ class RedditCommentTranscriber:
         group2 = re.sub(r'(\^)((?:\^*)(?:(?:\[.+?\]\(.+?\))|(?:\(.+?\))|(?:.+?)))(?= |\n|\*|$)',
                         cls._format_superscript_for_parser, text.group(2))
 
-        return '^' + group2 + '^'
+        return r'\\super \\fs18 ' + group2 + r'\\nosupersub \\fs24 '

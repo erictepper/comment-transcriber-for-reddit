@@ -4,6 +4,7 @@ import re
 
 import praw.exceptions
 import snoomark
+from gitmark import CMarkGFM
 
 
 class RedditCommentTranscriber:
@@ -131,9 +132,9 @@ class RedditCommentTranscriber:
                         comment_permalink_header + '\\fs24 \\cf0 \\\n')
 
         # Write the comment body
-        comment_body = re.sub(r'(\^)((?:\^*)(?:(?:\[.+?\]\(.+?\))|(?:\(.+?\))|(?:.+?)))(?= |\n|\*|$)',
-                              self._format_superscript_for_parser, comment.body)
-        current_body = self.string_cleaner(snoomark.comrak.to_html(self.string_pre_cleaner(comment_body)).decode("utf-8"))
+        #comment_body = re.sub(r'(\^)((?:\^*)(?:(?:\[.+?\]\(.+?\))|(?:\(.+?\))|(?:.+?)))(?= |\n|\*|$)',
+        #                      self._format_superscript_for_parser, comment.body)
+        current_body = self.string_cleaner(CMarkGFM.md2html(comment.body))
         save_file.write(current_body)
 
     @staticmethod

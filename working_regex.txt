@@ -20,9 +20,9 @@ group 2: expression takes the form "text " or "(text text text)" or
 
 
 CAPTURING LISTS
-<((?:ol)|(?:ul))>((?:.|\n|\r)+?)<\/\1>
+<((?:ol)|(?:ol start=.+?)|(?:ul))>((?:.|\n|\r)+?)<\/\1>
 
-group 1: defines the list as ol or ul
+group 1: defines the list as 'ol', 'ol start =text', or 'ul'
 group 2: text contained in the list
 
 

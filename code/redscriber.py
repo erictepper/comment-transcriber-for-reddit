@@ -134,8 +134,12 @@ class RedditCommentTranscriber:
 
         # Write the comment body
         comment_body = self.string_cleaner(CMarkGFM.md2html(comment.body))
-        current_body = re.sub(r'(\^)((?:\^*)(?:(?:{\\field{\\\*\\fldinst{HYPERLINK ".+?"}}{\\fldrslt .+?}})|(?:\(.+?\))|(?:.+?)))(?= |\n|\*|$|\\)',
+        current_body = re.sub(r'(\^)((?:\^*)'
+                              r'(?:(?:{\\field{\\\*\\fldinst{HYPERLINK ".+?"}}{\\fldrslt .+?}})|(?:\(.+?\))|(?:.+?)))'
+                              r'(?= |\n|\*|$|\\)',
                               self._format_superscript_for_parser, comment_body)
+        current_body = re.sub(r'<((?:ol)|(?:ol start=.+?)|(?:ul))>((?:.|\n|\r)+?)</\1>', self._format_lists_for_parser,
+                              current_body)
         save_file.write(current_body)
 
     @staticmethod
@@ -165,7 +169,13 @@ class RedditCommentTranscriber:
 
     @classmethod
     def _format_superscript_for_parser(cls, text):
-        group2 = re.sub(r'(\^)((?:\^*)(?:(?:{\\field{\\\*\\fldinst{HYPERLINK ".+?"}}{\\fldrslt .+?}})|(?:\(.+?\))|(?:.+?)))(?= |\n|\*|$|\\)',
+        group2 = re.sub(r'(\^)((?:\^*)'
+                        r'(?:(?:{\\field{\\\*\\fldinst{HYPERLINK ".+?"}}{\\fldrslt .+?}})|(?:\(.+?\))|(?:.+?)))'
+                        r'(?= |\n|\*|$|\\)',
                         cls._format_superscript_for_parser, text.group(2))
 
         return r'\super \fs18 ' + group2 + r'\nosupersub \fs24 '
+
+    @classmethod
+    def _format_lists_for_parser(cls, text):
+        return text  # stub

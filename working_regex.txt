@@ -20,10 +20,14 @@ group 2: expression takes the form "text " or "(text text text)" or
 
 
 CAPTURING LISTS
+entire list capture
 <((?:ol)|(?:ol start=.+?)|(?:ul))>((?:.|\n|\r)+?)<\/\1>
 
 group 1: defines the list as 'ol', 'ol start =text', or 'ul'
 group 2: text contained in the list
+
+list item capture
+<(li)>((?:.|\n|\r)+?)<\/\1>
 
 
 

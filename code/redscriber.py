@@ -178,4 +178,4 @@ class RedditCommentTranscriber:
 
     @classmethod
     def _format_lists_for_parser(cls, text):
-        return text  # stub
+        return ""  # stub

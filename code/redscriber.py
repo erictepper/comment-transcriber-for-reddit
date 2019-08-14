@@ -178,9 +178,32 @@ class RedditCommentTranscriber:
 
     @classmethod
     def _format_lists_for_parser(cls, regex):
-        group2 = cls._format_list_item(regex.group(1), regex.group(2))
-        return ""  # stub
+        tag = regex.group(1)
+        starting_number = re.search(r'[0-9]+', tag).group(1)
+        if tag == 'ol':
+            parser = OrderedListParser()
+            re.sub(r'')
+            items = parser.format_ordered_list_items(regex.group(2))
+        elif starting_number:
+            parser = OrderedListParser(int(starting_number))
+            items = parser.format_ordered_list_items(regex.group(2))
+        else:
+            items = cls._format_unordered_list_items(regex.group(2))
+
+        print(tag)
+        # group2 = ListParser.format_list_item(regex.group(1), regex.group(2))
+        return items  # stub
 
     @classmethod
-    def _format_list_item(cls, tag, text):
+    def _format_unordered_list_items(cls, text):
+        return ""  # stub
+
+
+class OrderedListParser:
+
+    def __init__(self, start=0):
+        self.item_number = start
+
+    def format_ordered_list_items(self, text):
+        print(self.item_number)
         return ""  # stub

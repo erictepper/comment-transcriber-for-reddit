@@ -12,6 +12,7 @@ class RedditCommentTranscriber:
 
     def __init__(self):
         self._reddit = praw.Reddit('auth_info')  # auth information stored in git-ignored praw.ini file for
+        self._indent = 0  # keeps track of the most recent indent-level for use in list transcription
         # confidentiality
 
     def transcribe(self, start_comment_id, end_comment_id):
@@ -138,12 +139,12 @@ class RedditCommentTranscriber:
                               r'(?:(?:{\\field{\\\*\\fldinst{HYPERLINK ".+?"}}{\\fldrslt .+?}})|(?:\(.+?\))|(?:.+?)))'
                               r'(?= |\n|\*|$|\\)',
                               self._format_superscript_for_parser, comment_body)
-        current_body = re.sub(r'<((?:ol)|(?:ol start=.+?)|(?:ul))>((?:.|\n|\r)+?)</\1>', self._format_lists_for_parser,
+        current_body = re.sub(r'<((?:ol)|(?:ul))((?: start=.+?)?)>((?:.|\n|\r)+?)</\1>', self._format_lists_for_parser,
                               current_body)
         save_file.write(current_body)
 
-    @staticmethod
-    def _indent_level(level):
+    def _indent_level(self, level):
+        self._indent = level
         indent_string = '\\pard\\li' + str(140*level) + '\\fi0\\pardirnatural\\partightenfactor0\n'
 
         return indent_string
@@ -179,31 +180,36 @@ class RedditCommentTranscriber:
     @classmethod
     def _format_lists_for_parser(cls, regex):
         tag = regex.group(1)
-        starting_number = re.search(r'[0-9]+', tag).group(1)
+        try:
+            starting_number = re.search(r'[0-9]+', regex.group(2)).group(0)
+        except AttributeError:
+            starting_number = None
         if tag == 'ol':
-            parser = OrderedListParser()
-            re.sub(r'')
-            items = parser.format_ordered_list_items(regex.group(2))
-        elif starting_number:
-            parser = OrderedListParser(int(starting_number))
-            items = parser.format_ordered_list_items(regex.group(2))
+            if starting_number:
+                print("got to ol tag with starter = " + starting_number)
+                parser = OrderedListParser(int(starting_number))
+            else:
+                print("got to ol tag")
+                parser = OrderedListParser()
+            group3 = re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', parser.format_ordered_list_items, regex.group(3))
         else:
-            items = cls._format_unordered_list_items(regex.group(2))
+            group3 = re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', cls._format_unordered_list_items, regex.group(3))
 
-        print(tag)
-        # group2 = ListParser.format_list_item(regex.group(1), regex.group(2))
-        return items  # stub
+        return group3  # stub
 
     @classmethod
     def _format_unordered_list_items(cls, text):
-        return ""  # stub
+        return '- ' + text.group(2)  # stub
 
 
 class OrderedListParser:
 
-    def __init__(self, start=0):
+    def __init__(self, start=1):
+        print("ol starting number = " + str(start))
         self.item_number = start
 
     def format_ordered_list_items(self, text):
-        print(self.item_number)
-        return ""  # stub
+        print("parsing: " + text.group(2))
+        return_string = str(self.item_number) + '. ' + text.group(2)
+        self.item_number += 1
+        return return_string

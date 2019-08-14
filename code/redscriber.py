@@ -177,5 +177,10 @@ class RedditCommentTranscriber:
         return r'\super \fs18 ' + group2 + r'\nosupersub \fs24 '
 
     @classmethod
-    def _format_lists_for_parser(cls, text):
+    def _format_lists_for_parser(cls, regex):
+        group2 = cls._format_list_item(regex.group(1), regex.group(2))
+        return ""  # stub
+
+    @classmethod
+    def _format_list_item(cls, tag, text):
         return ""  # stub

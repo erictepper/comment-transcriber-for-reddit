@@ -187,30 +187,34 @@ class RedditCommentTranscriber:
             starting_number = None
         if tag == 'ol':
             if starting_number:
-                print("got to ol tag with starter = " + starting_number)
                 parser = OrderedListParser(int(starting_number))
             else:
-                print("got to ol tag")
                 parser = OrderedListParser()
-            group3 = re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', parser.format_ordered_list_items, regex.group(3))
+            return re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', parser.format_ordered_list_items, regex.group(3))
         else:
-            group3 = re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', cls._format_unordered_list_items, regex.group(3))
-
-        return group3  # stub
+            return re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', cls._format_unordered_list_items, regex.group(3))
 
     @classmethod
     def _format_unordered_list_items(cls, text):
-        return '- ' + text.group(2)  # stub
+        my_text = text.group(2)
+        if len(my_text) >= 4 and my_text[len(my_text)-4:len(my_text)] == '\\\n\\\n':
+            end = ''
+        else:
+            end = '\\\n\\\n'
+        return '{\\listtext\t\\uc0\\u8226\t}' + text.group(2) + end
 
 
 class OrderedListParser:
 
     def __init__(self, start=1):
-        print("ol starting number = " + str(start))
         self.item_number = start
 
     def format_ordered_list_items(self, text):
-        print("parsing: " + text.group(2))
-        return_string = str(self.item_number) + '. ' + text.group(2)
+        my_text = text.group(2)
+        if len(my_text) >= 4 and my_text[len(my_text)-4:len(my_text)] == '\\\n\\\n':
+            end = ''
+        else:
+            end = '\\\n\\\n'
+        return_string = '{\\listtext\t' + str(self.item_number) + '.\t}' + text.group(2) + end
         self.item_number += 1
         return return_string

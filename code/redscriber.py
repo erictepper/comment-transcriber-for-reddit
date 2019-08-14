@@ -145,7 +145,8 @@ class RedditCommentTranscriber:
 
     def _indent_level(self, level):
         self._indent = level
-        indent_string = '\\pard\\li' + str(140*level) + '\\fi0\\pardirnatural\\partightenfactor0\n'
+        indent_string = '\\pard\\tx' + str(140*(level+1)) + '\\tx' + str(140*(level+4)) + '\\li' + str(140*level) + \
+                        '\\fi0\\pardirnatural\\partightenfactor0\n'
 
         return indent_string
 

@@ -213,15 +213,6 @@ class RedditCommentTranscriber:
             end = '\\\n\\\n'
         return '{\\listtext\t\\uc0\\u8226\t}' + text.group(2) + end
 
-    # Not currently in use
-    @staticmethod
-    def string_pre_cleaner(comment_text):
-        comment_text = comment_text.replace('—', r"\\'97")
-        comment_text = comment_text.replace('’', r"\\'92")
-        comment_text = comment_text.replace('“', r"\\'93")
-        comment_text = comment_text.replace('”', r"\\'94")
-        return comment_text.replace('‘', r"\\'91")
-
 
 class OrderedListParser:
 

@@ -145,18 +145,9 @@ class RedditCommentTranscriber:
 
     def _indent_level(self, level):
         self._indent = level
-        indent_string = '\\pard\\tx' + str(140*(level+1)) + '\\tx' + str(140*(level+4)) + '\\li' + str(140*level) + \
-                        '\\fi0\\pardirnatural\\partightenfactor0\n'
+        indent_string = '\\pard\\li' + str(140*level) + '\\fi0\\pardirnatural\\partightenfactor0\n'
 
         return indent_string
-
-    @staticmethod
-    def string_pre_cleaner(comment_text):
-        comment_text = comment_text.replace('—', r"\\'97")
-        comment_text = comment_text.replace('’', r"\\'92")
-        comment_text = comment_text.replace('“', r"\\'93")
-        comment_text = comment_text.replace('”', r"\\'94")
-        return comment_text.replace('‘', r"\\'91")
 
     @staticmethod
     def string_cleaner(comment_text):
@@ -178,8 +169,9 @@ class RedditCommentTranscriber:
 
         return r'\super \fs18 ' + group2 + r'\nosupersub \fs24 '
 
-    @classmethod
-    def _format_lists_for_parser(cls, regex):
+    def _format_lists_for_parser(self, regex):
+        indent_string = self._list_indent_level()
+        previous_indent_string = self._indent_level(self._indent)
         tag = regex.group(1)
         try:
             starting_number = re.search(r'[0-9]+', regex.group(2)).group(0)
@@ -190,9 +182,22 @@ class RedditCommentTranscriber:
                 parser = OrderedListParser(int(starting_number))
             else:
                 parser = OrderedListParser()
-            return re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', parser.format_ordered_list_items, regex.group(3))
+
+            return indent_string + \
+                   re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', parser.format_ordered_list_items, regex.group(3)) + \
+                   previous_indent_string
         else:
-            return re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', cls._format_unordered_list_items, regex.group(3))
+            return indent_string + \
+                   re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', self._format_unordered_list_items, regex.group(3)) + \
+                   previous_indent_string
+
+    def _list_indent_level(self):
+        list_tab = 140 * (self._indent + 1)
+        text_tab = 140 * (self._indent + 4)
+        indent_string = '\\pard\\tx' + str(list_tab) + '\\tx' + str(text_tab) + '\\li' + str(text_tab) + '\\fi-' + \
+                        str(text_tab) + '\\pardirnatural\\partightenfactor0\n'
+
+        return indent_string
 
     @classmethod
     def _format_unordered_list_items(cls, text):
@@ -202,6 +207,15 @@ class RedditCommentTranscriber:
         else:
             end = '\\\n\\\n'
         return '{\\listtext\t\\uc0\\u8226\t}' + text.group(2) + end
+
+    # Not currently in use
+    @staticmethod
+    def string_pre_cleaner(comment_text):
+        comment_text = comment_text.replace('—', r"\\'97")
+        comment_text = comment_text.replace('’', r"\\'92")
+        comment_text = comment_text.replace('“', r"\\'93")
+        comment_text = comment_text.replace('”', r"\\'94")
+        return comment_text.replace('‘', r"\\'91")
 
 
 class OrderedListParser:

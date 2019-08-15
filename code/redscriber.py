@@ -184,8 +184,8 @@ class RedditCommentTranscriber:
                 parser = OrderedListParser()
 
             return indent_string + \
-                   re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', parser.format_ordered_list_items, regex.group(3)) + \
-                   previous_indent_string
+                re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', parser.format_ordered_list_items, regex.group(3)) + \
+                previous_indent_string
         else:
             return indent_string + \
                    re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', self._format_unordered_list_items, regex.group(3)) + \

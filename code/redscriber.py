@@ -97,7 +97,7 @@ class RedditCommentTranscriber:
         # If end comment is not found in root_comment's descendants, return False
         if not found:
             if level == 0:
-                raise praw.exceptions.ClientException
+                raise praw.exceptions.ClientException  # todo: add exception text
             return False
 
         # We will only reach this code if we are at the starting comment, the end-comment has been found, and

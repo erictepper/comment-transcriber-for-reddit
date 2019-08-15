@@ -9,8 +9,6 @@ The following files contain code written exclusively by me:
 
 The following files contain code written by others with modifications by me<sup>1</sup>:
 - code/cmark-gfm/src/html.c<sup>2</sup>
-- code/comrak/src/parser/autolink.rs<sup>5</sup>
-- code/comrak/src/parser/mod.rs<sup>6</sup>
 
 output/ contains the output .rtf files of the test cases I have written. 
 
@@ -34,6 +32,3 @@ parse the html output for ordered/unordered lists in order to convert it to .rtf
 
 1. Modifications are marked with the comment 'edited by erictepper'
 2. Changed the output of the parser from .html syntax to .rtf syntax
-3. Added comments for debugging.
-5. Modified code to support the parsing of Reddit-specific links.
-6. Added comments to clarify what the code is doing.  

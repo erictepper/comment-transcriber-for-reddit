@@ -11,8 +11,8 @@ class RedditCommentTranscriber:
 
     def __init__(self):
         self._reddit = praw.Reddit('auth_info')  # auth information stored in git-ignored praw.ini file for
-        self._indent = 0  # keeps track of the most recent indent-level for use in list transcription
         # confidentiality
+        self._indent = 0  # keeps track of the most recent indent-level for use in list transcription
 
     def transcribe(self, start_comment_id, end_comment_id):
         start_comment = self._reddit.comment(id=start_comment_id)

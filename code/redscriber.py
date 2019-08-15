@@ -3,7 +3,7 @@ import datetime
 import re
 
 import praw.exceptions
-import snoomark
+# import snoomark
 from gitmark import CMarkGFM
 
 

@@ -113,7 +113,7 @@ class RedditCommentTranscriber:
         if level == 0:
             save_file.write(r'\pard {\field{\*\fldinst{HYPERLINK "' + comment_permalink)
             save_file.write(r'"}}{\fldrslt ' + comment_permalink + '}}\\\n')
-            save_file.write('Transcribed ' + str(datetime.datetime.utcnow()) + '\\\n')
+            save_file.write('Transcribed ' + datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S') + '\\\n')
             save_file.write('\\\n')
 
         indent_string = self._indent_level(level)

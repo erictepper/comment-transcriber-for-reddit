@@ -17,12 +17,11 @@ The following files contain code written by others with modifications by me<sup>
 output/ contains the output .rtf files of the test cases I have written. 
 
 #### To-do
-1. Create function that handles unordered/ordered list html parsing.
-2. Add support for emojis. 
-3. Change _write_comment_chain from DFS implementation to bottom-up transcription for potential speed increase.
-4. Remove testing code from redscriber.py.
-5. Write version info.
-6. Write privacy policy. 
+1. Add support for emojis. 
+2. Change _write_comment_chain from DFS implementation to bottom-up transcription for potential speed increase.
+3. Remove testing code from redscriber.py.
+4. Write version info.
+5. Write privacy policy. 
 
 #### Credits
 

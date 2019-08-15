@@ -50,7 +50,13 @@ class RedditCommentTranscriber:
         elif end_comment_id == 'all':
             self._write_comment_tree(save_file, start_comment, 0)
         else:
-            self._write_comment_chain(save_file, start_comment, end_comment_id, 0, list())
+            try:
+                self._write_comment_chain(save_file, start_comment, end_comment_id, 0, list())
+            except praw.exceptions.ClientException:
+                print('End comment was not found in thread.')
+                save_file.close()
+                os.remove(file_path)
+                return
 
         save_file.write('}')
         save_file.close()
@@ -91,7 +97,6 @@ class RedditCommentTranscriber:
         # If end comment is not found in root_comment's descendants, return False
         if not found:
             if level == 0:
-                print('End comment was not found in thread.')
                 raise praw.exceptions.ClientException
             return False
 

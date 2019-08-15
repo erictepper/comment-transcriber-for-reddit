@@ -92,6 +92,7 @@ class RedditCommentTranscriber:
         if not found:
             if level == 0:
                 print('End comment was not found in thread.')  # todo: raise praw.exceptions.ClientException if end comment not found
+                raise praw.exceptions.ClientException
             return False
 
         # We will only reach this code if we are at the starting comment, the end-comment has been found, and

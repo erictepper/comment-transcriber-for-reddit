@@ -51,8 +51,8 @@ class RedditCommentTranscriber:
         else:
             try:
                 self._write_comment_chain(save_file, start_comment, end_comment_id, 0, list())
-            except praw.exceptions.ClientException:
-                print('End comment was not found in thread.')
+            except praw.exceptions.ClientException as e:
+                print(str(e))
                 save_file.close()
                 os.remove(file_path)
                 return

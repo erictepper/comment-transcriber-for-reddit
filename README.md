@@ -23,14 +23,12 @@ output/ contains the output .rtf files of the test cases I have written.
 
 #### Credits
 
-- code/cmark-gfm - https://github.com/zeantsoi/snoomark-binding
-- code/comrak/ - https://github.com/zeantsoi/comrak
-- code/pulldown-cmark/ - https://github.com/zeantsoi/pulldown-cmark
+- code/cmark-gfm - https://github.com/github/cmark-gfm
 
-From what I can tell, these cited projects are officially used for parsing 
-Reddit's markdown and converting it to html. They are required in my project in order to take the text formatting that 
-Reddit uses (SnooMark) and convert it into .rtf formatting. code/comrak is the program that I am using for parsing the 
-markdown as I ran into errors using pulldown-cmark. 
+From what I can tell, the above cited project is an upstream version of the program used for parsing 
+Reddit's markdown and converting it to html. It is required in my project in order to take the text formatting that 
+Reddit uses (SnooMark) and convert it into .rtf formatting. I have had to do superscript parsing myself, and then also 
+parse the html output for ordered/unordered lists in order to convert it to .rtf formatting. 
 
 ---
 

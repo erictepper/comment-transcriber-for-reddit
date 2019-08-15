@@ -10,7 +10,7 @@ The following files contain code written exclusively by me:
 The following files contain code written by others with modifications by me<sup>1</sup>:
 - code/cmark-gfm/src/html.c<sup>2</sup>
 
-output/ contains the output .rtf files of the test cases I have written. 
+output/ contains the output .rtf files of the test cases I have written. (Not currently included in the repo)
 
 #### To-do
 1. Add support for emojis. 

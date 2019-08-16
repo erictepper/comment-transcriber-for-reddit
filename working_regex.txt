@@ -25,7 +25,7 @@ entire list capture
 
 group 1: defines the list as 'ol' or 'ul'
 group 2: captures an optional " start=number" included in the beginning tag
-group 2: text contained in the list
+group 3: text contained in the list
 
 list item capture
 <(li)>((?:.|\n|\r)+?)<\/\1>

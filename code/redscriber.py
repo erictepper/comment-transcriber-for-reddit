@@ -7,7 +7,6 @@ from gitmark import CMarkGFM
 
 
 class RedditCommentTranscriber:
-    LINE_LENGTH = 80
 
     def __init__(self):
         self._reddit = praw.Reddit('auth_info')  # auth information stored in git-ignored praw.ini file for

@@ -19,6 +19,10 @@ output/ contains the output .rtf files of the test cases I have written. (Not cu
 4. Remove testing code from redscriber.py.
 5. Write version info.
 6. Write privacy policy. 
+7. Add transcription for submissions.
+    1. Transcription of all comments.
+    2. Transcription of a single comment.
+    3. Transcription of a comment chain. 
 
 #### Credits
 

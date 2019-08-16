@@ -206,12 +206,13 @@ class RedditCommentTranscriber:
 
     @staticmethod
     def _format_unordered_list_items(match):
-        my_text = match.group(2)
-        if len(my_text) >= 4 and my_text[len(my_text)-4:len(my_text)] == '\\\n\\\n':
-            end = ''
+        list_text = match.group(2)
+        end = len(list_text)
+        if end >= 4 and list_text[end-4:end] == '\\\n\\\n':
+            append = ''
         else:
-            end = '\\\n\\\n'
-        return '{\\listtext\t\\uc0\\u8226\t}' + match.group(2) + end
+            append = '\\\n\\\n'
+        return '{\\listtext\t\\uc0\\u8226\t}' + list_text + append
 
 
 class OrderedListParser:

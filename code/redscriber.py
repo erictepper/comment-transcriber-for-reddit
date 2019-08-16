@@ -36,13 +36,13 @@ class RedditCommentTranscriber:
                         r'\red127\green127\blue127;}' + '\n' +
                         r'{\*\expandedcolortbl;;\cssrgb\c39975\c61335\c20601;\cssrgb\c57046\c57047\c57046;}' + '\n')
 
-        # if start_comment_id == 'edfm15w' or start_comment_id == 'edfme0h' or start_comment_id == 'ew6ld63':  # todo: testing
-        #     file_path_2 = os.path.join('..', 'output', start_comment_id + '_superscript_comment.txt')  # todo: testing
-        #     save_file_2 = open(file_path_2, 'w')  # todo: testing
-        #     #save_file_2.write(re.sub(r'(\^)((?:\^*)(?:(?:{\\field{\\\*\\fldinst{HYPERLINK ".+?"}}{\\fldrslt .+?}})|(?:\(.+?\))|(?:.+?)))(?= |\n|\*|$|\\)',
-        #     #                         self._format_superscript_for_parser, start_comment.body))  # todo: testing
-        #     save_file_2.write(CMarkGFM.md2html(start_comment.body))
-        #     save_file_2.close()  # todo: testing
+        if start_comment_id == 'edfm15w' or start_comment_id == 'edfme0h' or start_comment_id == 'ew6ld63':  # todo: testing
+            file_path_2 = os.path.join('..', 'output', start_comment_id + '_superscript_comment.txt')  # todo: testing
+            save_file_2 = open(file_path_2, 'w')  # todo: testing
+            save_file_2.write(re.sub(r'(\^)((?:\^*)(?:(?:{\\field{\\\*\\fldinst{HYPERLINK ".+?"}}{\\fldrslt .+?}})|(?:\(.+?\))|(?:.+?)))(?= |\n|\*|$|\\)',
+                                     self._format_superscript, start_comment.body))  # todo: testing
+            save_file_2.write(CMarkGFM.md2html(start_comment.body))
+            save_file_2.close()  # todo: testing
 
         if end_comment_id == 'none' or start_comment_id == end_comment_id:
             self._write_single_comment(save_file, start_comment)
@@ -143,7 +143,7 @@ class RedditCommentTranscriber:
         current_body = re.sub(r'(\^)((?:\^*)'
                               r'(?:(?:{\\field{\\\*\\fldinst{HYPERLINK ".+?"}}{\\fldrslt .+?}})|(?:\(.+?\))|(?:.+?)))'
                               r'(?= |\n|\*|$|\\)',
-                              self._format_superscript_for_parser, comment_body)
+                              self._format_superscript, comment_body)
         current_body = re.sub(r'<((?:ol)|(?:ul))((?: start=.+?)?)>((?:.|\n|\r)+?)</\1>', self._format_lists_for_parser,
                               current_body)
         save_file.write(current_body)
@@ -166,11 +166,11 @@ class RedditCommentTranscriber:
         return comment_text.replace('‘', r'\'91')
 
     @classmethod
-    def _format_superscript_for_parser(cls, text):
+    def _format_superscript(cls, text):
         group2 = re.sub(r'(\^)((?:\^*)'
                         r'(?:(?:{\\field{\\\*\\fldinst{HYPERLINK ".+?"}}{\\fldrslt .+?}})|(?:\(.+?\))|(?:.+?)))'
                         r'(?= |\n|\*|$|\\)',
-                        cls._format_superscript_for_parser, text.group(2))
+                        cls._format_superscript, text.group(2))
 
         return r'\super \fs18 ' + group2 + r'\nosupersub \fs24 '
 

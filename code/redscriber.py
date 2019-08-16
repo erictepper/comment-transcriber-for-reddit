@@ -219,12 +219,16 @@ class OrderedListParser:
     def __init__(self, start=1):
         self.item_number = start
 
-    def format_ordered_list_items(self, text):
-        my_text = text.group(2)
-        if len(my_text) >= 4 and my_text[len(my_text)-4:len(my_text)] == '\\\n\\\n':
+    def format_ordered_list_items(self, match):
+        list_text = match.group(2)
+
+        if len(list_text) >= 4 and list_text[len(list_text)-4:len(list_text)] == '\\\n\\\n':
             end = ''
         else:
             end = '\\\n\\\n'
-        return_string = '{\\listtext\t' + str(self.item_number) + '.\t}' + text.group(2) + end
+
+        return_string = '{\\listtext\t' + str(self.item_number) + '.\t}' + list_text + end
+
         self.item_number += 1
+
         return return_string

@@ -144,7 +144,7 @@ class RedditCommentTranscriber:
                               r'(?:(?:{\\field{\\\*\\fldinst{HYPERLINK ".+?"}}{\\fldrslt .+?}})|(?:\(.+?\))|(?:.+?)))'
                               r'(?= |\n|\*|$|\\)',
                               self._format_superscript, comment_body)
-        current_body = re.sub(r'<((?:ol)|(?:ul))((?: start=.+?)?)>((?:.|\n|\r)+?)</\1>', self._format_lists_for_parser,
+        current_body = re.sub(r'<((?:ol)|(?:ul))((?: start=.+?)?)>((?:.|\n|\r)+?)</\1>', self._format_lists,
                               current_body)
         save_file.write(current_body)
 
@@ -174,7 +174,7 @@ class RedditCommentTranscriber:
 
         return r'\super \fs18 ' + group2 + r'\nosupersub \fs24 '
 
-    def _format_lists_for_parser(self, regex):
+    def _format_lists(self, regex):
         indent_string = self._list_indent_level()
         previous_indent_string = self._indent_level(self._indent)
         tag = regex.group(1)

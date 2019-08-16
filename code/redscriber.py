@@ -166,20 +166,20 @@ class RedditCommentTranscriber:
         return comment_text.replace('‘', r'\'91')
 
     @classmethod
-    def _format_superscript(cls, text):
+    def _format_superscript(cls, match):
         group2 = re.sub(r'(\^)((?:\^*)'
                         r'(?:(?:{\\field{\\\*\\fldinst{HYPERLINK ".+?"}}{\\fldrslt .+?}})|(?:\(.+?\))|(?:.+?)))'
                         r'(?= |\n|\*|$|\\)',
-                        cls._format_superscript, text.group(2))
+                        cls._format_superscript, match.group(2))
 
         return r'\super \fs18 ' + group2 + r'\nosupersub \fs24 '
 
-    def _format_lists(self, regex):
+    def _format_lists(self, match):
         indent_string = self._list_indent_level()
         previous_indent_string = self._indent_level(self._indent)
-        tag = regex.group(1)
+        tag = match.group(1)
         try:
-            starting_number = re.search(r'[0-9]+', regex.group(2)).group(0)
+            starting_number = re.search(r'[0-9]+', match.group(2)).group(0)
         except AttributeError:
             starting_number = None
         if tag == 'ol':
@@ -189,11 +189,11 @@ class RedditCommentTranscriber:
                 parser = OrderedListParser()
 
             return indent_string + \
-                re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', parser.format_ordered_list_items, regex.group(3)) + \
-                previous_indent_string
+                   re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', parser.format_ordered_list_items, match.group(3)) + \
+                   previous_indent_string
         else:
             return indent_string + \
-                   re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', self._format_unordered_list_items, regex.group(3)) + \
+                   re.sub(r'<(li)>((?:.|\n|\r)+?)</\1>', self._format_unordered_list_items, match.group(3)) + \
                    previous_indent_string
 
     def _list_indent_level(self):

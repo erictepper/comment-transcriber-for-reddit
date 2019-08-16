@@ -204,8 +204,8 @@ class RedditCommentTranscriber:
 
         return indent_string
 
-    @classmethod
-    def _format_unordered_list_items(cls, text):
+    @staticmethod
+    def _format_unordered_list_items(text):
         my_text = text.group(2)
         if len(my_text) >= 4 and my_text[len(my_text)-4:len(my_text)] == '\\\n\\\n':
             end = ''

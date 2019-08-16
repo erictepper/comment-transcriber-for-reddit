@@ -205,13 +205,13 @@ class RedditCommentTranscriber:
         return indent_string
 
     @staticmethod
-    def _format_unordered_list_items(text):
-        my_text = text.group(2)
+    def _format_unordered_list_items(match):
+        my_text = match.group(2)
         if len(my_text) >= 4 and my_text[len(my_text)-4:len(my_text)] == '\\\n\\\n':
             end = ''
         else:
             end = '\\\n\\\n'
-        return '{\\listtext\t\\uc0\\u8226\t}' + text.group(2) + end
+        return '{\\listtext\t\\uc0\\u8226\t}' + match.group(2) + end
 
 
 class OrderedListParser:

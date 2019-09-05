@@ -27,7 +27,7 @@ comment and ending with *one* of its descendants, and the chain of comments betw
 richer, easier-to-read text formatting. 
 
 **Version 0.5:** Implemented and modified Reddit's markdown parser, 
-[snoomark-binding](https://github.com/zeantsoi/snoomark-binding) to convert markdown (a form of plain text formatting) 
+[snoomark-binding](https://github.com/zeantsoi/snoomark-binding), to convert markdown (a form of plain text formatting) 
 in comments to .rtf formatting, substantially increasing readability of comments.
 
 **Version 0.6:** Implemented and modified a new Markdown parser, GitHub's 

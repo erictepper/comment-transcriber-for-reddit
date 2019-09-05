@@ -130,7 +130,25 @@ class RedditCommentTranscriber:
 
     # Except praw.exceptions.ClientException if ancestor cannot be found.
     def _write_comment_chain_up(self, save_file, comment_stack, comment, ancestor_id):
-        return  # stub
+        refresh_counter = 0
+        while comment.id != ancestor_id:
+            if comment.is_root:
+                raise praw.exceptions.ClientException('Start comment and end comment were not found within the same '
+                                                      'thread.')
+            if refresh_counter % 9 == 0:
+                comment.refresh()
+            refresh_counter += 1
+            comment_stack.append(comment)
+            comment = comment.parent()
+
+        comment_stack.append(comment)
+
+        submission_link = 'https://www.reddit.com' + comment.submission.permalink
+        level = 0
+        while comment_stack:
+            current = comment_stack.pop()
+            self._write_comment(save_file=save_file, comment=current, submission_link=submission_link, level=level)
+            level += 1
 
     def _write_comment(self, save_file, comment, submission_link, level):
         comment_permalink = submission_link + comment.id + '/'

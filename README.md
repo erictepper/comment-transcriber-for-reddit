@@ -32,7 +32,7 @@ in comments to .rtf formatting, substantially increasing readability of comments
 
 **Version 0.6:** Implemented and modified a new Markdown parser, GitHub's 
 [cmark-gfm](https://github.com/github/cmark-gfm) (an upstream version of Reddit's Markdown parser), due to bugs and 
-potential licensing issues with the previous parser. 
+potential copyright issues with the previous parser. 
 
 **Version 0.7:** Implemented functionality using regular expressions to parse Markdown superscript and convert it into 
 .rtf formatting (as GitHub's parser does not implement functionality for superscript). Superscript will now be properly 

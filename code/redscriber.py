@@ -75,7 +75,8 @@ class RedditCommentTranscriber:
         save_file.write('}')
         save_file.close()
         end = time.time()
-        print('Writing to the file took %f seconds' % (end-start))
+        print('Writing to the file took %f seconds for comments %s, %s.' %
+              (end-start, start_comment_id, end_comment_id))
 
     def _write_single_comment(self, save_file, comment):
         submission_link = 'https://www.reddit.com' + comment.submission.permalink

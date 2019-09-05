@@ -20,7 +20,7 @@ output/ contains the output .rtf files of the test cases I have written. (Not cu
 all of its descendants).
 
 **Version 0.3:** Implemented method and functionality to write a single thread of comments, starting with the beginning 
-comment and ending with *one* of its descendants, and the thread of comments between the start and end comment. 
+comment and ending with *one* of its descendants, and the chain of comments between the start and end comment. 
 
 
 **Version 0.4:** Modified transcriber to write in the .rtf file format, rather than .txt, creating the potential for 

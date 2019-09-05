@@ -89,6 +89,7 @@ class RedditCommentTranscriber:
         for reply in root_comment.replies:
             self._write_comment_tree(save_file, reply, level + 1)
 
+    # ----DEPRECATED----
     # Recursive depth-first search from the start comment to find the end comment
     # If end comment is found, adds the chain to the comment_stack and finally prints the comment_stack.
     # Returns True if end_comment is found in root_comment's descendants, False if it has not been found.

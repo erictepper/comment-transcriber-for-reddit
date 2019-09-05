@@ -49,10 +49,9 @@ implementation, for a potential speed increase.
 ###### Features to Add
 1. Use parser's table, strikethrough, and autolink extensions. 
 2. Add support for emojis. 
-3. Change _write_comment_chain from DFS implementation to bottom-up transcription for potential speed increase.
-4. Remove testing code from redscriber.py.
-5. Write privacy policy. 
-6. Add transcription for submissions.
+3. Remove testing code from redscriber.py.
+4. Write privacy policy. 
+5. Add transcription for submissions.
     1. Transcription of all comments.
     2. Transcription of a single comment.
     3. Transcription of a comment chain. 

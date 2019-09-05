@@ -1,5 +1,6 @@
 import os
 import datetime
+import time
 import re
 
 import praw.exceptions
@@ -14,15 +15,29 @@ class RedditCommentTranscriber:
         self._indent = 0  # keeps track of the most recent indent-level for use in list transcription
 
     def transcribe(self, start_comment_id, end_comment_id):
-        start_comment = self._reddit.comment(id=start_comment_id)
+        start = time.time()
+        if end_comment_id != 'all' and end_comment_id != 'none':
+            start_comment = self._reddit.comment(id=end_comment_id)
+            using_start_comment = False
+        else:
+            start_comment = self._reddit.comment(id=start_comment_id)
+            using_start_comment = True
 
         try:
             start_comment.refresh()  # obtains the CommentForest (i.e. list) of replies
-            start_comment.replies.replace_more(limit=None)  # loads deeply-nested comments
         except praw.exceptions.ClientException:
-            print('Start comment does not exist.')
+            if using_start_comment:
+                print('Start comment does not exist.')
+            else:
+                print('End comment does not exist.')
             return
 
+        if end_comment_id == 'all':
+            start_comment.replies.replace_more(limit=None)  # loads deeply-nested comments
+        end = time.time()
+        print('Accessing Reddit took %f seconds.' % (end-start))
+
+        start = time.time()
         # saves the file as date_[start_comment_id]_[end_comment_id].rtf
         file_name = str(datetime.datetime.utcnow().date()) + '_' + start_comment_id + '_' + end_comment_id + '.rtf'
         file_path = os.path.join('..', 'output', file_name)
@@ -49,7 +64,8 @@ class RedditCommentTranscriber:
             self._write_comment_tree(save_file, start_comment, 0)
         else:
             try:
-                self._write_comment_chain(save_file, start_comment, end_comment_id, 0, list())
+                # self._write_comment_chain(save_file, start_comment, end_comment_id, 0, list())
+                self._write_comment_chain_up(save_file, list(), start_comment, start_comment_id)
             except praw.exceptions.ClientException as e:
                 print(str(e))
                 save_file.close()
@@ -58,6 +74,8 @@ class RedditCommentTranscriber:
 
         save_file.write('}')
         save_file.close()
+        end = time.time()
+        print('Writing to the file took %f seconds' % (end-start))
 
     def _write_single_comment(self, save_file, comment):
         submission_link = 'https://www.reddit.com' + comment.submission.permalink
@@ -74,7 +92,7 @@ class RedditCommentTranscriber:
     # Recursive depth-first search from the start comment to find the end comment
     # If end comment is found, adds the chain to the comment_stack and finally prints the comment_stack.
     # Returns True if end_comment is found in root_comment's descendants, False if it has not been found.
-    def _write_comment_chain(self, save_file, root_comment, end_comment_id, level, comment_stack):  # todo: change from DFS implementation to bottom-up transcription for speed
+    def _write_comment_chain(self, save_file, root_comment, end_comment_id, level, comment_stack):
         # Base case: root_comment is the end comment
         if root_comment.id == end_comment_id:
             comment_stack.append(root_comment)
@@ -109,6 +127,28 @@ class RedditCommentTranscriber:
             level += 1
 
         return True
+
+    # Except praw.exceptions.ClientException if ancestor cannot be found.
+    def _write_comment_chain_up(self, save_file, comment_stack, comment, ancestor_id):
+        refresh_counter = 0
+        while comment.id != ancestor_id:
+            if comment.is_root:
+                raise praw.exceptions.ClientException('Start comment and end comment were not found within the same '
+                                                      'thread.')
+            if refresh_counter % 9 == 0:
+                comment.refresh()
+            refresh_counter += 1
+            comment_stack.append(comment)
+            comment = comment.parent()
+
+        comment_stack.append(comment)
+
+        submission_link = 'https://www.reddit.com' + comment.submission.permalink
+        level = 0
+        while comment_stack:
+            current = comment_stack.pop()
+            self._write_comment(save_file=save_file, comment=current, submission_link=submission_link, level=level)
+            level += 1
 
     def _write_comment(self, save_file, comment, submission_link, level):
         comment_permalink = submission_link + comment.id + '/'

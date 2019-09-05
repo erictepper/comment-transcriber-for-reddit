@@ -1,5 +1,6 @@
 import os
 import datetime
+import time
 import re
 
 import praw.exceptions
@@ -14,6 +15,7 @@ class RedditCommentTranscriber:
         self._indent = 0  # keeps track of the most recent indent-level for use in list transcription
 
     def transcribe(self, start_comment_id, end_comment_id):
+        start = time.time()
         if end_comment_id != 'all' and end_comment_id != 'none':
             start_comment = self._reddit.comment(id=end_comment_id)
             using_start_comment = False
@@ -32,7 +34,10 @@ class RedditCommentTranscriber:
 
         if end_comment_id == 'all':
             start_comment.replies.replace_more(limit=None)  # loads deeply-nested comments
+        end = time.time()
+        print('Accessing Reddit took %f seconds.' % (end-start))
 
+        start = time.time()
         # saves the file as date_[start_comment_id]_[end_comment_id].rtf
         file_name = str(datetime.datetime.utcnow().date()) + '_' + start_comment_id + '_' + end_comment_id + '.rtf'
         file_path = os.path.join('..', 'output', file_name)
@@ -60,7 +65,7 @@ class RedditCommentTranscriber:
         else:
             try:
                 # self._write_comment_chain(save_file, start_comment, end_comment_id, 0, list())
-                self._write_comment_chain_up(save_file, start_comment, start_comment_id)
+                self._write_comment_chain_up(save_file, list(), start_comment, start_comment_id)
             except praw.exceptions.ClientException as e:
                 print(str(e))
                 save_file.close()
@@ -69,6 +74,8 @@ class RedditCommentTranscriber:
 
         save_file.write('}')
         save_file.close()
+        end = time.time()
+        print('Writing to the file took %f seconds' % (end-start))
 
     def _write_single_comment(self, save_file, comment):
         submission_link = 'https://www.reddit.com' + comment.submission.permalink
@@ -122,7 +129,7 @@ class RedditCommentTranscriber:
         return True
 
     # Except praw.exceptions.ClientException if ancestor cannot be found.
-    def _write_comment_chain_up(self, save_file, root_comment, ancestor_id):
+    def _write_comment_chain_up(self, save_file, comment_stack, comment, ancestor_id):
         return  # stub
 
     def _write_comment(self, save_file, comment, submission_link, level):

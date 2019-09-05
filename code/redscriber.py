@@ -131,6 +131,8 @@ class RedditCommentTranscriber:
 
     def _write_comment_chain_up(self, save_file, comment_stack, comment, ancestor_id):
         refresh_counter = 0
+
+        # Searches upwards from the descendant comment to try to find the ancestor comment
         while comment.id != ancestor_id:
             if comment.is_root:
                 raise praw.exceptions.ClientException('Start comment and end comment were not found within the same '
@@ -141,6 +143,7 @@ class RedditCommentTranscriber:
             comment_stack.append(comment)
             comment = comment.parent()
 
+        # Appends the first comment in the chain to the stack. 
         comment_stack.append(comment)
 
         submission_link = 'https://www.reddit.com' + comment.submission.permalink

@@ -46,7 +46,7 @@ files.
 
 **Version 0.9:** Changed _write_comment_chain from a depth-first-search implementation to a bottom-up linear search 
 implementation, for a potential speed increase. 
-* **0.9.1:** Test cases now use multiprocessing to run. 
+* **0.9.1:** Test cases now use multiprocessing to be more time-efficient. 
 
 ### To-do
 ###### Features to Add

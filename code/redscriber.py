@@ -35,7 +35,7 @@ class RedditCommentTranscriber:
         if end_comment_id == 'all':
             start_comment.replies.replace_more(limit=None)  # loads deeply-nested comments
         end = time.time()
-        print('Accessing Reddit took %f seconds.' % (end-start))
+        print('Accessing Reddit took %f seconds for comments %s, %s.' % (end-start, start_comment_id, end_comment_id))
 
         start = time.time()
         # saves the file as date_[start_comment_id]_[end_comment_id].rtf

@@ -7,7 +7,6 @@ from redscriber import RedditCommentTranscriber
 if __name__ == '__main__':
     transcriber = RedditCommentTranscriber()
 
-    # Comments for testing purposes:
     # Non-existent start comment
     p1 = Process(target=transcriber.transcribe, args=('jfkdlszds', 'all',))
     p1.start()

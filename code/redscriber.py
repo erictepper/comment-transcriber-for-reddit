@@ -21,17 +21,17 @@ class RedditCommentTranscriber:
             start_comment = self._reddit.comment(id=start_comment_id)
             using_start_comment = True
 
-        if end_comment_id != 'none' and end_comment_id != start_comment_id:
-            try:
-                start_comment.refresh()  # obtains the CommentForest (i.e. list) of replies
-                if end_comment_id == 'all':
-                    start_comment.replies.replace_more(limit=None)  # loads deeply-nested comments
-            except praw.exceptions.ClientException:
-                if using_start_comment:
-                    print('Start comment does not exist.')
-                else:
-                    print('End comment does not exist.')
-                return
+        try:
+            start_comment.refresh()  # obtains the CommentForest (i.e. list) of replies
+        except praw.exceptions.ClientException:
+            if using_start_comment:
+                print('Start comment does not exist.')
+            else:
+                print('End comment does not exist.')
+            return
+
+        if end_comment_id == 'all':
+            start_comment.replies.replace_more(limit=None)  # loads deeply-nested comments
 
         # saves the file as date_[start_comment_id]_[end_comment_id].rtf
         file_name = str(datetime.datetime.utcnow().date()) + '_' + start_comment_id + '_' + end_comment_id + '.rtf'
@@ -121,7 +121,8 @@ class RedditCommentTranscriber:
 
         return True
 
-    def _write_comment_chain_up(self, save_file, root_comment, end_comment_id):
+    # Except praw.exceptions.ClientException if ancestor cannot be found.
+    def _write_comment_chain_up(self, save_file, root_comment, ancestor_id):
         return  # stub
 
     def _write_comment(self, save_file, comment, submission_link, level):

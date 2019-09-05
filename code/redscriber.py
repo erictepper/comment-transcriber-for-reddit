@@ -84,7 +84,7 @@ class RedditCommentTranscriber:
     # Recursive depth-first search from the start comment to find the end comment
     # If end comment is found, adds the chain to the comment_stack and finally prints the comment_stack.
     # Returns True if end_comment is found in root_comment's descendants, False if it has not been found.
-    def _write_comment_chain(self, save_file, root_comment, end_comment_id, level, comment_stack):  # todo: change from DFS implementation to bottom-up transcription for speed
+    def _write_comment_chain(self, save_file, root_comment, end_comment_id, level, comment_stack):
         # Base case: root_comment is the end comment
         if root_comment.id == end_comment_id:
             comment_stack.append(root_comment)

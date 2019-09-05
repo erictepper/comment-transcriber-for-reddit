@@ -1,5 +1,7 @@
 # Transcriber for Reddit Comments
 ### General Info
+Version 0.9.1
+
 A program that converts a thread of Reddit comments to a rich text file (.rtf). 
 
 The following files contain code written exclusively by me:
@@ -44,6 +46,7 @@ files.
 
 **Version 0.9:** Changed _write_comment_chain from a depth-first-search implementation to a bottom-up linear search 
 implementation, for a potential speed increase. 
+* **0.9.1:** Test cases now use multiprocessing to run. 
 
 ### To-do
 ###### Features to Add

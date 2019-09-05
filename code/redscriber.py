@@ -24,7 +24,8 @@ class RedditCommentTranscriber:
         if end_comment_id != 'none' and end_comment_id != start_comment_id:
             try:
                 start_comment.refresh()  # obtains the CommentForest (i.e. list) of replies
-                start_comment.replies.replace_more(limit=None)  # loads deeply-nested comments
+                if end_comment_id == 'all':
+                    start_comment.replies.replace_more(limit=None)  # loads deeply-nested comments
             except praw.exceptions.ClientException:
                 if using_start_comment:
                     print('Start comment does not exist.')

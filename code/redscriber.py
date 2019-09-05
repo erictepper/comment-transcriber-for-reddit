@@ -129,7 +129,6 @@ class RedditCommentTranscriber:
 
         return True
 
-    # Except praw.exceptions.ClientException if ancestor cannot be found.
     def _write_comment_chain_up(self, save_file, comment_stack, comment, ancestor_id):
         refresh_counter = 0
         while comment.id != ancestor_id:

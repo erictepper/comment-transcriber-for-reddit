@@ -8,4 +8,3 @@ if __name__ == '__main__':
 
     transcriber = RedditCommentTranscriber()
     transcriber.transcribe(start_comment_id=start_comment_id, end_comment_id=end_comment_id)
-    print('Transcribed comment thread in %f s.' % (end-start))

@@ -6,4 +6,4 @@ output/
 
 # IDE files
 .idea/
-code/praw.ini
+redscriber/praw.ini
